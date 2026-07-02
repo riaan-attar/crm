@@ -1,15 +1,3 @@
-/**
- * ChartCard.jsx
- * Reusable wrapper card for all CRM chart sections.
- * Props:
- *   title        — card heading
- *   lastSynced   — subtitle string (e.g. "Last synced 8 minutes ago")
- *   showPeriod   — show period dropdown (bool)
- *   periodValue  — label for period dropdown
- *   showInterval — show interval dropdown (bool)
- *   intervalValue — label for interval dropdown
- *   children     — chart or empty state content
- */
 import React, { useState } from 'react';
 import { Filter, MoreHorizontal, ChevronDown } from 'lucide-react';
 
@@ -38,31 +26,49 @@ function IconBtn({ children, onClick }) {
   );
 }
 
-function DropdownBtn({ label }) {
+function DropdownSelect({ value, onChange, options }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <button
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        background: hovered ? '#2b2b2b' : '#232323',
-        border: '1px solid #343434',
-        borderRadius: '6px',
-        padding: '4px 10px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '5px',
-        fontSize: '14px',
-        color: '#afafaf',
-        fontFamily: 'inherit',
-        transition: 'background 0.1s',
-        whiteSpace: 'nowrap',
-      }}
-    >
-      {label}
-      <ChevronDown size={12} style={{ color: '#7c7c7c' }} />
-    </button>
+    <div style={{ position: 'relative', display: 'inline-block' }}>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          background: hovered ? '#2b2b2b' : '#232323',
+          border: '1px solid #343434',
+          borderRadius: '6px',
+          padding: '4px 28px 4px 10px',
+          cursor: 'pointer',
+          fontSize: '14px',
+          color: '#afafaf',
+          fontFamily: 'inherit',
+          transition: 'background 0.1s',
+          whiteSpace: 'nowrap',
+          appearance: 'none',
+          WebkitAppearance: 'none',
+          outline: 'none',
+        }}
+      >
+        {options.map((opt) => (
+          <option key={opt} value={opt} style={{ backgroundColor: '#1c1c1c', color: '#afafaf' }}>
+            {opt}
+          </option>
+        ))}
+      </select>
+      <ChevronDown 
+        size={12} 
+        style={{ 
+          color: '#7c7c7c', 
+          position: 'absolute', 
+          right: '10px', 
+          top: '55%', 
+          transform: 'translateY(-50%)',
+          pointerEvents: 'none' 
+        }} 
+      />
+    </div>
   );
 }
 
@@ -71,8 +77,12 @@ export default function ChartCard({
   lastSynced = 'Last synced 8 minutes ago',
   showPeriod = false,
   periodValue = 'Last Quarter',
+  periodOptions = ['Last Month', 'Last Quarter', 'Last Year', 'All Time'],
+  onPeriodChange,
   showInterval = false,
   intervalValue = 'Weekly',
+  intervalOptions = ['Daily', 'Weekly', 'Monthly'],
+  onIntervalChange,
   children,
 }) {
   return (
@@ -109,8 +119,20 @@ export default function ChartCard({
         {/* Right: controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           <IconBtn><Filter size={13} /></IconBtn>
-          {showPeriod && <DropdownBtn label={periodValue} />}
-          {showInterval && <DropdownBtn label={intervalValue} />}
+          {showPeriod && onPeriodChange && (
+            <DropdownSelect 
+              value={periodValue} 
+              onChange={onPeriodChange} 
+              options={periodOptions} 
+            />
+          )}
+          {showInterval && onIntervalChange && (
+            <DropdownSelect 
+              value={intervalValue} 
+              onChange={onIntervalChange} 
+              options={intervalOptions} 
+            />
+          )}
           <IconBtn><MoreHorizontal size={14} /></IconBtn>
         </div>
       </div>

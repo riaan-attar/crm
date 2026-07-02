@@ -10,9 +10,15 @@
     "dev:mcp": "cd mcp && npm run dev",
     "mcp:stdio": "node mcp/index.js",
     "mcp:sse": "node mcp/index.js --sse",
-    "cli": "node cli/index.js"
+    "cli": "node cli/index.js",
+    "postinstall": "cd server && npm install",
+    "build": "echo 'No build step required for backend'",
+    "start": "cd server && node server.js"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.14"
   }
 }
