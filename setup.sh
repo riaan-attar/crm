@@ -14,7 +14,7 @@ echo "=========================================="
 # 1. Update system & install required tools
 echo "[1/6] Updating packages & installing system dependencies..."
 sudo apt-get update -y
-sudo apt-get install -y curl git build-essential caddy
+sudo apt-get install -y curl git build-essential caddy psmisc
 
 # 2. Check Node.js and PM2
 echo "[2/6] Checking Node.js and PM2..."
@@ -63,6 +63,8 @@ echo "Installing server dependencies..."
 npm install
 
 echo "Starting/restarting backend server with PM2..."
+# Clear any stray non-PM2 process listening on port 5000
+sudo fuser -k 5000/tcp || true
 if pm2 describe crm-server > /dev/null 2>&1; then
   pm2 restart crm-server
 else
