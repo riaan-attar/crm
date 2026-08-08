@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
-const STATUS_OPTIONS = ['New', 'Contacted', 'Nurture', 'Qualified', 'Unqualified', 'Junk', 'Converted'];
+import { getStoredLeadStatuses } from '../../../utils/leadStatuses';
+
 const SALUTATION_OPTIONS = ['Mr', 'Mrs', 'Ms', 'Dr', 'Prof'];
 const GENDER_OPTIONS = ['Male', 'Female', 'Other', 'Prefer not to say'];
 const EMPLOYEES_OPTIONS = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
@@ -177,7 +178,7 @@ export default function AddLeadModal({ isOpen, onClose, onSave, initialStatus = 
           {renderField('Industry', 'industry', 'text', '', INDUSTRY_OPTIONS, false, true)}
           
           {/* Row 5 */}
-          {renderField('Status', 'status', 'text', '', STATUS_OPTIONS, false, true, 2, 
+          {renderField('Status', 'status', 'text', '', getStoredLeadStatuses().map(s => s.id), false, true, 2, 
             <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: getStatusColor(form.status) }}></div>
           )}
           {renderField('Lead Owner', 'leadOwner', 'text', 'Assign to...', null, false, false, 1,

@@ -61,6 +61,12 @@ export const SIDEBAR_CONFIG = {
       icon: 'Mail',
       route: '/crm/email-templates',
     },
+    {
+      key: 'automations',
+      label: 'Automations',
+      icon: 'Zap',
+      route: '/crm/automations',
+    },
   ],
 
   publicViews: [

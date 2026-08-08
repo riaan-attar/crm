@@ -19,6 +19,10 @@ const Integration = require('./Integration.model');
 const OauthAccount = require('./OauthAccount.model');
 const WebhookLog = require('./WebhookLog.model');
 const SyncJob = require('./SyncJob.model');
+const Automation = require('./Automation.model');
+const AutomationStep = require('./AutomationStep.model');
+const AutomationLog = require('./AutomationLog.model');
+const AutomationPendingExecution = require('./AutomationPendingExecution.model');
 
 // Define associations
 Lead.hasMany(Opportunity, { foreignKey: 'linkedLeadId', as: 'opportunities' });
@@ -57,6 +61,18 @@ CallLog.belongsTo(Opportunity, { foreignKey: 'linkedId', constraints: false, as:
 CallLog.belongsTo(Customer, { foreignKey: 'linkedId', constraints: false, as: 'customer' });
 CallLog.belongsTo(Contact, { foreignKey: 'linkedId', constraints: false, as: 'contact' });
 
+// Automation Associations
+Automation.hasMany(AutomationStep, { foreignKey: 'automationId', as: 'steps', onDelete: 'CASCADE' });
+AutomationStep.belongsTo(Automation, { foreignKey: 'automationId' });
+
+AutomationStep.hasMany(AutomationStep, { foreignKey: 'parentStepId', as: 'children', onDelete: 'CASCADE' });
+AutomationStep.belongsTo(AutomationStep, { foreignKey: 'parentStepId', as: 'parent' });
+
+Automation.hasMany(AutomationLog, { foreignKey: 'automationId', as: 'logs', onDelete: 'CASCADE' });
+AutomationLog.belongsTo(Automation, { foreignKey: 'automationId' });
+AutomationLog.belongsTo(Lead, { foreignKey: 'leadId', as: 'lead' });
+AutomationLog.belongsTo(Contact, { foreignKey: 'contactId', as: 'contact' });
+
 module.exports = {
   sequelize,
   Lead,
@@ -76,5 +92,9 @@ module.exports = {
   Integration,
   OauthAccount,
   WebhookLog,
-  SyncJob
+  SyncJob,
+  Automation,
+  AutomationStep,
+  AutomationLog,
+  AutomationPendingExecution
 };

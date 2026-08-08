@@ -58,6 +58,28 @@ const createCrudController = (Model, prefix) => {
           io.emit('crm:update', { model: modelName, action: 'create', data: item });
         }
 
+        // Fire-and-forget automation triggers
+        const { runAutomationsForTrigger } = require('../services/automationEngine');
+        if (prefix === 'LEAD') {
+          runAutomationsForTrigger({
+            triggerType: 'lead_created',
+            leadId: item.id,
+            context: { lead: item.toJSON() }
+          }).catch(err => console.error('Automation trigger error:', err));
+        } else if (prefix === 'COMM') {
+          runAutomationsForTrigger({
+            triggerType: 'keyword_match',
+            leadId: item.linkedId || null,
+            context: { messageText: item.content }
+          }).catch(err => console.error('Automation trigger error:', err));
+
+          runAutomationsForTrigger({
+            triggerType: 'new_message_received',
+            leadId: item.linkedId || null,
+            context: { messageText: item.content }
+          }).catch(err => console.error('Automation trigger error:', err));
+        }
+
         res.status(201).json(item);
       } catch (error) {
         console.error(`Error creating ${prefix} item:`, error);
@@ -73,6 +95,16 @@ const createCrudController = (Model, prefix) => {
         const io = req.app.get('io');
         if (io) {
           io.emit('crm:update', { model: modelName, action: 'update', data: item });
+        }
+
+        // Fire-and-forget automation triggers on status change
+        const { runAutomationsForTrigger } = require('../services/automationEngine');
+        if (prefix === 'LEAD') {
+          runAutomationsForTrigger({
+            triggerType: 'stage_changed',
+            leadId: item.id,
+            context: { lead: item.toJSON(), stage: item.status }
+          }).catch(err => console.error('Automation trigger error:', err));
         }
 
         res.json(item);

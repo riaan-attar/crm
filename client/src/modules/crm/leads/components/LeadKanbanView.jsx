@@ -1,30 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { useNavigate } from 'react-router-dom';
 import {
-  Plus, Folder, Mail, Phone, AtSign, FileText, CheckCircle2, MessageCircle
+  Plus, Folder, Mail, Phone, AtSign, FileText, CheckCircle2, MessageCircle, Trash2, X
 } from 'lucide-react';
+import {
+  DEFAULT_LEAD_STATUSES,
+  COLOR_OPTIONS,
+  getStoredLeadStatuses,
+  saveStoredLeadStatuses,
+  mapLeadStatusToColumn
+} from '../../../../utils/leadStatuses';
 
-export const KANBAN_STATUSES = [
-  { id: 'New', label: 'New', color: '#475569', dotColor: '#64748b' },
-  { id: 'Contacted', label: 'Contacted', color: '#0369a1', dotColor: '#0284c7' },
-  { id: 'Nurture', label: 'Nurture', color: '#15803d', dotColor: '#16a34a' },
-  { id: 'Qualified', label: 'Qualified', color: '#b45309', dotColor: '#d97706' },
-  { id: 'Unqualified', label: 'Unqualified', color: '#b91c1c', dotColor: '#dc2626' },
-  { id: 'Junk', label: 'Junk', color: '#475569', dotColor: '#475569' },
-  { id: 'Converted', label: 'Converted', color: '#7e22ce', dotColor: '#9333ea' },
-];
-
-export const mapLeadStatusToColumn = (status) => {
-  if (!status) return 'New';
-  const s = String(status).trim();
-  if (s === 'Nurturing' || s === 'Follow Up') return 'Nurture';
-  if (s === 'Site Visit Scheduled' || s === 'Negotiation') return 'Contacted';
-  if (KANBAN_STATUSES.some(item => item.id === s)) {
-    return s;
-  }
-  return 'New';
-};
+export { DEFAULT_LEAD_STATUSES as KANBAN_STATUSES, mapLeadStatusToColumn };
 
 const getAvatarStyle = (nameStr) => {
   if (!nameStr) return { bg: '#e2e8f0', color: '#475569', char: '?' };
@@ -63,6 +51,18 @@ const formatRelativeTime = (dateStr) => {
 
 export default function LeadKanbanView({ leads, updateLead, onAddLeadWithStatus }) {
   const navigate = useNavigate();
+  const [statuses, setStatuses] = useState(getStoredLeadStatuses());
+  const [showAddColumnModal, setShowAddColumnModal] = useState(false);
+  const [newStatusName, setNewStatusName] = useState('');
+  const [selectedColor, setSelectedColor] = useState(COLOR_OPTIONS[0]);
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      setStatuses(getStoredLeadStatuses());
+    };
+    window.addEventListener('crm_lead_statuses_updated', handleUpdate);
+    return () => window.removeEventListener('crm_lead_statuses_updated', handleUpdate);
+  }, []);
 
   const handleDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -71,6 +71,43 @@ export default function LeadKanbanView({ leads, updateLead, onAddLeadWithStatus 
 
     const newStatus = destination.droppableId;
     updateLead(draggableId, { status: newStatus });
+  };
+
+  const handleCreateColumn = () => {
+    if (!newStatusName.trim()) return;
+    const name = newStatusName.trim();
+    if (statuses.some(s => s.id.toLowerCase() === name.toLowerCase())) {
+      alert('A status column with this name already exists!');
+      return;
+    }
+
+    const newCol = {
+      id: name,
+      label: name,
+      color: selectedColor.color,
+      dotColor: selectedColor.dotColor,
+      isCustom: true,
+    };
+
+    const updated = [...statuses, newCol];
+    setStatuses(updated);
+    saveStoredLeadStatuses(updated);
+
+    setNewStatusName('');
+    setShowAddColumnModal(false);
+  };
+
+  const handleDeleteColumn = (statusId) => {
+    if (DEFAULT_LEAD_STATUSES.some(d => d.id === statusId)) {
+      alert('Built-in default status columns cannot be deleted.');
+      return;
+    }
+
+    if (window.confirm(`Are you sure you want to remove the status column "${statusId}"?`)) {
+      const updated = statuses.filter(s => s.id !== statusId);
+      setStatuses(updated);
+      saveStoredLeadStatuses(updated);
+    }
   };
 
   return (
@@ -87,10 +124,12 @@ export default function LeadKanbanView({ leads, updateLead, onAddLeadWithStatus 
           alignItems: 'flex-start',
         }}
       >
-        {KANBAN_STATUSES.map((column) => {
+        {statuses.map((column) => {
           const columnLeads = leads.filter(
-            (lead) => mapLeadStatusToColumn(lead.status) === column.id
+            (lead) => mapLeadStatusToColumn(lead.status, statuses) === column.id
           );
+
+          const isDefault = DEFAULT_LEAD_STATUSES.some(d => d.id === column.id);
 
           return (
             <div
@@ -126,7 +165,7 @@ export default function LeadKanbanView({ leads, updateLead, onAddLeadWithStatus 
                       width: '9px',
                       height: '9px',
                       borderRadius: '50%',
-                      background: column.dotColor,
+                      background: column.dotColor || '#64748b',
                     }}
                   />
                   <span style={{ fontSize: '13.5px', fontWeight: '600', color: '#0f172a' }}>
@@ -145,32 +184,46 @@ export default function LeadKanbanView({ leads, updateLead, onAddLeadWithStatus 
                     {columnLeads.length}
                   </span>
                 </div>
-                <button
-                  onClick={() => onAddLeadWithStatus(column.id)}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: '#64748b',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '4px',
-                    borderRadius: '4px',
-                    transition: 'all 0.15s',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = '#0f172a';
-                    e.currentTarget.style.background = '#e2e8f0';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = '#64748b';
-                    e.currentTarget.style.background = 'transparent';
-                  }}
-                  title={`Add lead to ${column.label}`}
-                >
-                  <Plus size={15} />
-                </button>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  {!isDefault && (
+                    <button
+                      onClick={() => handleDeleteColumn(column.id)}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#94a3b8',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '4px',
+                        borderRadius: '4px',
+                      }}
+                      title={`Delete column ${column.label}`}
+                    >
+                      <Trash2 size={13} color="#dc2626" />
+                    </button>
+                  )}
+                  <button
+                    onClick={() => onAddLeadWithStatus(column.id)}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#64748b',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '4px',
+                      borderRadius: '4px',
+                      transition: 'all 0.15s',
+                    }}
+                    title={`Add lead to ${column.label}`}
+                  >
+                    <Plus size={15} />
+                  </button>
+                </div>
               </div>
 
               {/* DROPPABLE CONTAINER */}
@@ -217,20 +270,7 @@ export default function LeadKanbanView({ leads, updateLead, onAddLeadWithStatus 
                                 userSelect: 'none',
                                 ...dragProvided.draggableProps.style,
                               }}
-                              onMouseEnter={(e) => {
-                                if (!dragSnapshot.isDragging) {
-                                  e.currentTarget.style.borderColor = '#cbd5e1';
-                                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.07)';
-                                }
-                              }}
-                              onMouseLeave={(e) => {
-                                if (!dragSnapshot.isDragging) {
-                                  e.currentTarget.style.borderColor = '#e2e8f0';
-                                  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)';
-                                }
-                              }}
                             >
-                              {/* TOP ROW: AVATAR & NAME */}
                               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                                 <div
                                   style={{
@@ -263,18 +303,8 @@ export default function LeadKanbanView({ leads, updateLead, onAddLeadWithStatus 
                                 </div>
                               </div>
 
-                              {/* PROJECT */}
                               {lead.organization && (
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '6px',
-                                    fontSize: '12px',
-                                    color: '#475569',
-                                    marginBottom: '6px',
-                                  }}
-                                >
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#475569', marginBottom: '6px' }}>
                                   <Folder size={13} color="#64748b" />
                                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                     {lead.organization}
@@ -282,49 +312,22 @@ export default function LeadKanbanView({ leads, updateLead, onAddLeadWithStatus 
                                 </div>
                               )}
 
-                              {/* EMAIL */}
                               {lead.email && (
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '6px',
-                                    fontSize: '12px',
-                                    color: '#2563eb',
-                                    marginBottom: '6px',
-                                  }}
-                                >
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#2563eb', marginBottom: '6px' }}>
                                   <Mail size={13} color="#3b82f6" />
-                                  <span
-                                    style={{
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      whiteSpace: 'nowrap',
-                                    }}
-                                  >
+                                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                     {lead.email}
                                   </span>
                                 </div>
                               )}
 
-                              {/* PHONE */}
                               {(lead.mobileNo || lead.mobile) && (
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '6px',
-                                    fontSize: '12px',
-                                    color: '#475569',
-                                    marginBottom: '10px',
-                                  }}
-                                >
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#475569', marginBottom: '10px' }}>
                                   <Phone size={13} color="#64748b" />
                                   <span>{lead.mobileNo || lead.mobile}</span>
                                 </div>
                               )}
 
-                              {/* ASSIGNED OWNER & TIME */}
                               <div
                                 style={{
                                   display: 'flex',
@@ -361,7 +364,6 @@ export default function LeadKanbanView({ leads, updateLead, onAddLeadWithStatus 
                                 <span>{formatRelativeTime(lead.createdOn || lead.createdAt)}</span>
                               </div>
 
-                              {/* CARD ACTION BAR */}
                               <div
                                 style={{
                                   display: 'flex',
@@ -410,7 +412,102 @@ export default function LeadKanbanView({ leads, updateLead, onAddLeadWithStatus 
             </div>
           );
         })}
+
+        {/* ADD COLUMN BUTTON */}
+        <div
+          onClick={() => setShowAddColumnModal(true)}
+          style={{
+            width: '240px',
+            minWidth: '240px',
+            background: '#ffffff',
+            border: '2px dashed #cbd5e1',
+            borderRadius: '10px',
+            padding: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            fontSize: '13.5px',
+            fontWeight: '600',
+            color: '#2563eb',
+            cursor: 'pointer',
+            flexShrink: 0,
+            transition: 'all 0.15s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = '#2563eb';
+            e.currentTarget.style.background = '#eff6ff';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '#cbd5e1';
+            e.currentTarget.style.background = '#ffffff';
+          }}
+        >
+          <Plus size={16} /> Add Status Column
+        </div>
       </div>
+
+      {/* ADD COLUMN MODAL */}
+      {showAddColumnModal && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.4)', backdropFilter: 'blur(2px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+          <div style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '12px', width: '100%', maxWidth: '420px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
+              <span style={{ fontSize: '15px', fontWeight: '600', color: '#0f172a' }}>Add Custom Status Column</span>
+              <button onClick={() => setShowAddColumnModal(false)} style={{ background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer' }}>✕</button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                <label style={{ fontSize: '12px', color: '#475569', fontWeight: '500' }}>Status Column Name *</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Site Visit Scheduled, Proposal Sent, Negotiation"
+                  value={newStatusName}
+                  onChange={(e) => setNewStatusName(e.target.value)}
+                  style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '8px 12px', fontSize: '13px', color: '#0f172a', outline: 'none' }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                <label style={{ fontSize: '12px', color: '#475569', fontWeight: '500' }}>Column Badge Color</label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {COLOR_OPTIONS.map((c) => (
+                    <div
+                      key={c.label}
+                      onClick={() => setSelectedColor(c)}
+                      style={{
+                        width: '24px',
+                        height: '24px',
+                        borderRadius: '50%',
+                        background: c.dotColor,
+                        cursor: 'pointer',
+                        border: selectedColor.label === c.label ? '2px solid #0f172a' : '2px solid transparent',
+                        boxShadow: selectedColor.label === c.label ? '0 0 0 2px #ffffff' : 'none'
+                      }}
+                      title={c.label}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', paddingTop: '10px', borderTop: '1px solid #e2e8f0' }}>
+              <button
+                onClick={() => setShowAddColumnModal(false)}
+                style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '6px 14px', fontSize: '13px', color: '#334155', cursor: 'pointer' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCreateColumn}
+                style={{ background: '#2563eb', border: 'none', borderRadius: '6px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#ffffff', cursor: 'pointer' }}
+              >
+                Create Column
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </DragDropContext>
   );
 }

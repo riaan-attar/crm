@@ -4,6 +4,7 @@ import { useLeads } from '../../../context/LeadsContext';
 import AddLeadModal from './AddLeadModal';
 import FilterPanel from './FilterPanel';
 import LeadKanbanView from './components/LeadKanbanView';
+import { getStoredLeadStatuses } from '../../../utils/leadStatuses';
 import {
   Plus, LayoutList, ChevronDown, RefreshCw,
   SlidersHorizontal, Users, Phone, Mail, MessageCircle, Kanban
@@ -182,7 +183,7 @@ export default function LeadList() {
     leads.map(l => l.organization).filter(Boolean)
   ));
 
-  const statusOptions = ['New', 'Contacted', 'Nurture', 'Qualified', 'Unqualified', 'Junk', 'Converted'];
+  const statusOptions = getStoredLeadStatuses().map(s => s.id);
 
   const sourceOptions = Array.from(new Set(
     leads.flatMap(l => [l.leadSource, l.source])

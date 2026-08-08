@@ -23,6 +23,7 @@ import NotesPage from './modules/crm/notes/NotesPage';
 import TasksPage from './modules/crm/tasks/TasksPage';
 import CallLogsPage from './modules/crm/calllogs/CallLogsPage';
 import EmailTemplatesPage from './modules/crm/emailtemplates/EmailTemplatesPage';
+import AutomationsPage from './modules/crm/automations';
 import CrmSettings from './modules/crm/settings/CrmSettings';
 
 import { LeadsProvider } from './context/LeadsContext';
@@ -38,6 +39,7 @@ import { NotesProvider } from './context/NotesContext';
 import { TasksProvider } from './context/TasksContext';
 import { CallLogsProvider } from './context/CallLogsContext';
 import { EmailTemplatesProvider } from './context/EmailTemplatesContext';
+import { AutomationsProvider } from './context/AutomationsContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './modules/auth/Login';
 
@@ -103,6 +105,7 @@ export default function App() {
                     <TasksProvider>
                     <CallLogsProvider>
                     <EmailTemplatesProvider>
+                      <AutomationsProvider>
                       <BrowserRouter>
                       <Routes>
                         <Route path="/" element={<AppShell />}>
@@ -132,6 +135,7 @@ export default function App() {
                           <Route path="crm/tasks" element={<TasksPage />} />
                           <Route path="crm/call-logs" element={<CallLogsPage />} />
                           <Route path="crm/email-templates" element={<EmailTemplatesPage />} />
+                          <Route path="crm/automations/*" element={<AutomationsPage />} />
                           <Route path="crm/settings" element={<CrmSettings />} />
                           
                           <Route path="crm/incoming-calls" element={<Placeholder title="Incoming Calls" />} />
@@ -142,6 +146,7 @@ export default function App() {
 
                       </Routes>
                       </BrowserRouter>
+                      </AutomationsProvider>
                     </EmailTemplatesProvider>
                     </CallLogsProvider>
                     </TasksProvider>
