@@ -35,7 +35,7 @@ export default function AppShell() {
             flexDirection: 'column',
             height: '100vh',
             overflow: 'hidden',
-            background: '#0f0f0f'
+            background: '#ffffff'
           }}
         >
           {!shouldHideTopbar && <Topbar />}

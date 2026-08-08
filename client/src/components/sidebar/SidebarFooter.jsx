@@ -18,9 +18,10 @@ export default function SidebarFooter({ isCollapsed }) {
   return (
     <div
       style={{
-        borderTop: '1px solid #1c1c1c',
+        borderTop: '1px solid #e2e8f0',
         padding: '8px 6px',
         flexShrink: 0,
+        background: '#ffffff',
       }}
     >
       {/* PROFILE ROW */}
@@ -37,7 +38,7 @@ export default function SidebarFooter({ isCollapsed }) {
           gap: '8px',
           borderRadius: '6px',
           cursor: 'pointer',
-          background: profileHovered ? '#171717' : 'transparent',
+          background: profileHovered ? '#f1f5f9' : 'transparent',
           transition: 'background 0.1s',
         }}
       >
@@ -46,7 +47,7 @@ export default function SidebarFooter({ isCollapsed }) {
             width: '24px',
             height: '24px',
             borderRadius: '50%',
-            background: '#a352cc',
+            background: '#2563eb',
             fontSize: '10px',
             fontWeight: 600,
             color: '#ffffff',
@@ -60,10 +61,10 @@ export default function SidebarFooter({ isCollapsed }) {
         </div>
         {!isCollapsed && (
           <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', flex: 1 }}>
-            <span style={{ fontSize: '12px', fontWeight: 500, color: '#f8f8f8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.2 }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.2 }}>
               {user?.fullName || user?.username || 'Admin User'}
             </span>
-            <span style={{ fontSize: '10px', color: '#7c7c7c', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.1 }}>
+            <span style={{ fontSize: '10px', color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.1 }}>
               {user?.email || 'admin@example.com'}
             </span>
           </div>
@@ -85,13 +86,13 @@ export default function SidebarFooter({ isCollapsed }) {
           borderRadius: '6px',
           cursor: 'pointer',
           marginTop: '4px',
-          background: settingsHovered ? '#171717' : 'transparent',
+          background: settingsHovered ? '#f1f5f9' : 'transparent',
           transition: 'background 0.1s',
         }}
       >
-        <Settings size={13} color="#7c7c7c" style={{ flexShrink: 0 }} />
+        <Settings size={13} color="#64748b" style={{ flexShrink: 0 }} />
         {!isCollapsed && (
-          <span style={{ fontSize: '12px', color: '#7c7c7c', flex: 1, whiteSpace: 'nowrap' }}>
+          <span style={{ fontSize: '12px', color: '#475569', flex: 1, whiteSpace: 'nowrap' }}>
             Settings
           </span>
         )}
@@ -111,22 +112,22 @@ export default function SidebarFooter({ isCollapsed }) {
             borderRadius: '6px',
             cursor: 'pointer',
             marginTop: '2px',
-            background: searchHovered ? '#171717' : 'transparent',
+            background: searchHovered ? '#f1f5f9' : 'transparent',
             transition: 'background 0.1s',
           }}
         >
-          <Search size={13} color="#383838" style={{ flexShrink: 0 }} />
-          <span style={{ fontSize: '12px', color: '#383838', flex: 1, whiteSpace: 'nowrap' }}>
+          <Search size={13} color="#94a3b8" style={{ flexShrink: 0 }} />
+          <span style={{ fontSize: '12px', color: '#94a3b8', flex: 1, whiteSpace: 'nowrap' }}>
             Search
           </span>
           <div
             style={{
-              background: '#1c1c1c',
-              border: '1px solid #2b2b2b',
+              background: '#f1f5f9',
+              border: '1px solid #cbd5e1',
               borderRadius: '4px',
               fontSize: '10px',
               padding: '1px 5px',
-              color: '#383838',
+              color: '#64748b',
               flexShrink: 0,
             }}
           >

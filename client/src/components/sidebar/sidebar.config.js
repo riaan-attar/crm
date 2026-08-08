@@ -32,10 +32,10 @@ export const SIDEBAR_CONFIG = {
       route: '/crm/contacts',
     },
     {
-      key: 'organizations',
-      label: 'Organizations',
-      icon: 'Building2',
-      route: '/crm/organizations',
+      key: 'projects',
+      label: 'Projects',
+      icon: 'Folder',
+      route: '/crm/projects',
     },
     {
       key: 'notes',

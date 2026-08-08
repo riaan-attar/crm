@@ -26,6 +26,7 @@ const formatLabel = (segment) => {
     payroll: 'Payroll',
     purchase: 'Purchase',
     assets: 'Assets',
+    organizations: 'Projects',
     projects: 'Projects',
     'activity-type': 'Activity Type',
     'activity-cost': 'Activity Cost',
@@ -50,34 +51,34 @@ export default function Topbar() {
 
   const pathSegments = location.pathname.split('/').filter(Boolean);
 
-  const sep = <span style={{ color: '#383838', margin: '0 4px' }}>/</span>;
+  const sep = <span style={{ color: '#cbd5e1', margin: '0 4px' }}>/</span>;
 
   return (
     <header
       style={{
-        backgroundColor: '#000000',
+        backgroundColor: '#ffffff',
         height: '40px',
         minHeight: '40px',
         flexShrink: 0,
         display: 'flex',
         alignItems: 'center',
         padding: '0 16px',
-        borderBottom: '1px solid #232323',
+        borderBottom: '1px solid #e2e8f0',
         zIndex: 100,
         justifyContent: 'space-between',
       }}
     >
       {/* ── Breadcrumb ─────────────────────────────────────────── */}
-      <nav style={{ display: 'flex', alignItems: 'center', fontSize: '13px', color: '#7c7c7c' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', color: '#7c7c7c', textDecoration: 'none' }}>
-          <Home size={14} style={{ color: '#7c7c7c' }} />
+      <nav style={{ display: 'flex', alignItems: 'center', fontSize: '13px', color: '#64748b' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', color: '#64748b', textDecoration: 'none' }}>
+          <Home size={14} style={{ color: '#64748b' }} />
         </Link>
 
         {/* Static "Dashboard" crumb */}
         {sep}
-        <Link to="/" style={{ color: '#7c7c7c', fontSize: '13px', textDecoration: 'none' }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#afafaf')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#7c7c7c')}>
+        <Link to="/" style={{ color: '#64748b', fontSize: '13px', textDecoration: 'none' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#0f172a')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#64748b')}>
           Dashboard
         </Link>
 
@@ -91,15 +92,15 @@ export default function Topbar() {
             <React.Fragment key={path}>
               {sep}
               {isLast ? (
-                <span style={{ color: '#f8f8f8', fontSize: '13px', fontWeight: 600 }}>
+                <span style={{ color: '#0f172a', fontSize: '13px', fontWeight: 600 }}>
                   {label}
                 </span>
               ) : (
                 <Link
                   to={path}
-                  style={{ color: '#7c7c7c', fontSize: '13px', textDecoration: 'none' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#afafaf')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#7c7c7c')}
+                  style={{ color: '#64748b', fontSize: '13px', textDecoration: 'none' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#0f172a')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#64748b')}
                 >
                   {label}
                 </Link>

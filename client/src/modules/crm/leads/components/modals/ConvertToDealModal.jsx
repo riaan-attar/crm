@@ -19,11 +19,11 @@ export default function ConvertToDealModal({ isOpen, onClose, onConvert, lead })
           </button>
         </div>
 
-        {/* SECTION 1 - Organization */}
+        {/* SECTION 1 - Project */}
         <div style={{ marginBottom: '28px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
             <Building2 size={18} color="#9ca3af" />
-            <div style={{ fontSize: '15px', fontWeight: 500, color: '#374151' }}>Organization</div>
+            <div style={{ fontSize: '15px', fontWeight: 500, color: '#374151' }}>Project</div>
           </div>
           
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
@@ -37,11 +37,11 @@ export default function ConvertToDealModal({ isOpen, onClose, onConvert, lead })
           </div>
           
           <div style={{ fontSize: '13px', color: '#9ca3af', marginBottom: '12px' }}>
-            {!chooseExistingOrg ? "New organization will be created based on the data in details section" : (
+            {!chooseExistingOrg ? "New project will be created based on the data in details section" : (
               <input 
                 value={selectedOrg}
                 onChange={e => setSelectedOrg(e.target.value)}
-                placeholder="Search organization..."
+                placeholder="Search project..."
                 style={{ width: '100%', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '8px 12px', fontSize: '13px', outline: 'none', boxSizing: 'border-box' }}
               />
             )}

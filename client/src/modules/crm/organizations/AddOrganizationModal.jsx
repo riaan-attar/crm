@@ -58,7 +58,7 @@ export default function AddOrganizationModal({ isOpen, onClose, onSave }) {
       <div style={{ background: '#ffffff', borderRadius: '12px', width: '640px', maxWidth: '90%', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)', display: 'flex', flexDirection: 'column', maxHeight: '90vh' }}>
         
         <div style={{ padding: '16px 20px', borderBottom: '1px solid #f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h2 style={{ margin: 0, fontSize: '16px', fontWeight: '600', color: '#111827' }}>Create Organization</h2>
+          <h2 style={{ margin: 0, fontSize: '16px', fontWeight: '600', color: '#111827' }}>Create Project</h2>
           <button onClick={onClose} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#6b7280', display: 'flex' }}>
             <X size={18} />
           </button>
@@ -69,8 +69,8 @@ export default function AddOrganizationModal({ isOpen, onClose, onSave }) {
             
             {/* Row 1 */}
             <div style={{ gridColumn: '1 / -1' }}>
-              <label style={labelStyle}>Organization Name <span style={{ color: '#ef4444' }}>*</span></label>
-              <input name="name" value={formData.name} onChange={handleChange} required placeholder="Vikram Industries" style={inputStyle} />
+              <label style={labelStyle}>Project Name <span style={{ color: '#ef4444' }}>*</span></label>
+              <input name="name" value={formData.name} onChange={handleChange} required placeholder="Riverfront Towers" style={inputStyle} />
             </div>
 
             {/* Row 2 */}

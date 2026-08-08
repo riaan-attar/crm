@@ -214,11 +214,11 @@ export default function DealRightPanel({ deal, isEditing, onUpdate }) {
         </div>
       </div>
 
-      {/* Organization Section */}
+      {/* Project Section */}
       <div style={{ marginBottom: '4px' }}>
         <div onClick={() => setOrgOpen(!orgOpen)} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 4px', cursor: 'pointer', borderRadius: '5px' }} onMouseEnter={e => e.currentTarget.style.background = '#171717'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
           {orgOpen ? <ChevronDown size={12} color="#383838" /> : <ChevronRight size={12} color="#383838" />}
-          <span style={{ fontSize: '11px', fontWeight: 600, color: '#424242', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Organization</span>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: '#424242', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Project</span>
         </div>
         <div style={{ padding: '4px 0 8px 18px', transition: 'max-height 0.2s ease', overflow: 'hidden', maxHeight: orgOpen ? '1000px' : '0' }}>
           {deal?.organization && (
@@ -227,7 +227,7 @@ export default function DealRightPanel({ deal, isEditing, onUpdate }) {
               <div style={{ fontSize: '12px', color: '#f8f8f8' }}>{deal.organization}</div>
             </div>
           )}
-          {renderField('Organization', deal?.organization, 'organization')}
+          {renderField('Project', deal?.organization, 'organization')}
           {renderField('Website', deal?.website, 'website')}
         </div>
       </div>

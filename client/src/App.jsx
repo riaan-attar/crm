@@ -124,6 +124,8 @@ export default function App() {
                           <Route path="crm/campaigns" element={<CampaignList />} />
                           
                           {/* Placeholders */}
+                          <Route path="crm/projects" element={<OrganizationList />} />
+                          <Route path="crm/projects/:id" element={<OrganizationDetail />} />
                           <Route path="crm/organizations" element={<OrganizationList />} />
                           <Route path="crm/organizations/:id" element={<OrganizationDetail />} />
                           <Route path="crm/notes" element={<NotesPage />} />

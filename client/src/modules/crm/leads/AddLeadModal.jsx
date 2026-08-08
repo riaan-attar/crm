@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
-const STATUS_OPTIONS = ['New', 'Contacted', 'Nurturing', 'Qualified', 'Unqualified', 'Junk'];
+const STATUS_OPTIONS = ['New', 'Contacted', 'Nurture', 'Qualified', 'Unqualified', 'Junk', 'Converted'];
 const SALUTATION_OPTIONS = ['Mr', 'Mrs', 'Ms', 'Dr', 'Prof'];
 const GENDER_OPTIONS = ['Male', 'Female', 'Other', 'Prefer not to say'];
 const EMPLOYEES_OPTIONS = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
 const TERRITORY_OPTIONS = ['Nashik', 'Pune', 'Mumbai', 'Nagpur', 'Aurangabad', 'India', 'Other'];
 const INDUSTRY_OPTIONS = ['Real Estate', 'Construction', 'Finance', 'Healthcare', 'Technology', 'Manufacturing', 'Education', 'Retail', 'Other'];
 
-export default function AddLeadModal({ isOpen, onClose, onSave }) {
+export default function AddLeadModal({ isOpen, onClose, onSave, initialStatus = 'New' }) {
   const [form, setForm] = useState({
     salutation: 'Mr',
     firstName: '',
@@ -22,12 +22,18 @@ export default function AddLeadModal({ isOpen, onClose, onSave }) {
     territory: 'Nashik',
     annualRevenue: '',
     industry: '',
-    status: 'New',
+    status: initialStatus || 'New',
     leadOwner: 'Admin User',
     leadSource: '',
   });
 
   const [focusedField, setFocusedField] = useState(null);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setForm(prev => ({ ...prev, status: initialStatus || 'New' }));
+    }
+  }, [isOpen, initialStatus]);
 
   if (!isOpen) return null;
 
@@ -48,10 +54,11 @@ export default function AddLeadModal({ isOpen, onClose, onSave }) {
     switch (status) {
       case 'New': return '#7c7c7c';
       case 'Contacted': return '#5aaef2';
-      case 'Nurturing': return '#e79913';
-      case 'Qualified': return '#28a745';
+      case 'Nurture': return '#30a66d';
+      case 'Qualified': return '#e79913';
       case 'Unqualified': return '#e03636';
-      case 'Junk': return '#424242';
+      case 'Junk': return '#6b7280';
+      case 'Converted': return '#c084fc';
       default: return '#7c7c7c';
     }
   };
@@ -160,7 +167,7 @@ export default function AddLeadModal({ isOpen, onClose, onSave }) {
           {renderField('Gender', 'gender', 'text', '', GENDER_OPTIONS, false, true)}
           
           {/* Row 3 */}
-          {renderField('Organization', 'organization', 'text', 'Frappé Technologies')}
+          {renderField('Project', 'organization', 'text', 'Riverfront Towers')}
           {renderField('Website', 'website', 'url', 'https://frappe.io')}
           {renderField('No of Employees', 'noOfEmployees', 'text', '', EMPLOYEES_OPTIONS, false, true)}
           

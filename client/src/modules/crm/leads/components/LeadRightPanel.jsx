@@ -233,7 +233,7 @@ export default function LeadRightPanel({ lead, isEditing, onUpdate }) {
           <span style={{ fontSize: '11px', fontWeight: 600, color: '#424242', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Details</span>
         </div>
         <div style={{ padding: '4px 0 8px 18px', transition: 'max-height 0.2s ease', overflow: 'hidden', maxHeight: detailsOpen ? '1000px' : '0' }}>
-          {renderField('Organization', lead?.organization, 'organization')}
+          {renderField('Project', lead?.organization, 'organization')}
           {renderField('Website', lead?.website, 'website', 'url')}
           {renderField('Industry', lead?.industry, 'industry', 'select', ['Real Estate', 'Construction', 'Finance', 'Healthcare', 'Technology', 'Education', 'Other'])}
           {renderField('Job Title', lead?.jobTitle, 'jobTitle')}

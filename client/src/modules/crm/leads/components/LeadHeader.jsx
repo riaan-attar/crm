@@ -7,12 +7,13 @@ export default function LeadHeader({ lead, isEditing, onEdit, onSave, onDelete, 
   const [showStatusDrop, setShowStatusDrop] = useState(false);
 
   const statusColors = {
-    'New': '#7c7c7c',
-    'Contacted': '#5aaef2',
-    'Nurturing': '#e79913',
-    'Qualified': '#28a745',
-    'Unqualified': '#e03636',
-    'Junk': '#424242'
+    'New': '#64748b',
+    'Contacted': '#0284c7',
+    'Nurture': '#16a34a',
+    'Qualified': '#d97706',
+    'Unqualified': '#dc2626',
+    'Junk': '#475569',
+    'Converted': '#9333ea'
   };
 
   const getInitials = (name) => {
@@ -21,23 +22,23 @@ export default function LeadHeader({ lead, isEditing, onEdit, onSave, onDelete, 
     return parts.length > 1 ? parts[0][0] + parts[1][0] : parts[0][0];
   };
 
-  const currentStatusColor = statusColors[lead?.status] || '#7c7c7c';
+  const currentStatusColor = statusColors[lead?.status] || '#64748b';
 
   return (
     <div style={{
-      height: '48px', background: '#0a0a0a', borderBottom: '1px solid #1c1c1c',
+      height: '48px', background: '#ffffff', borderBottom: '1px solid #e2e8f0',
       padding: '0 20px', display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0
     }}>
       <span
         onClick={() => navigate('/crm/leads')}
-        style={{ fontSize: '13px', color: '#7c7c7c', cursor: 'pointer' }}
-        onMouseEnter={e => e.currentTarget.style.color = '#f8f8f8'}
-        onMouseLeave={e => e.currentTarget.style.color = '#7c7c7c'}
+        style={{ fontSize: '13px', color: '#64748b', cursor: 'pointer' }}
+        onMouseEnter={e => e.currentTarget.style.color = '#0f172a'}
+        onMouseLeave={e => e.currentTarget.style.color = '#64748b'}
       >
         Leads
       </span>
-      <ChevronRight size={14} color="#383838" />
-      <span style={{ fontSize: '13px', color: '#f8f8f8', fontWeight: 500 }}>
+      <ChevronRight size={14} color="#cbd5e1" />
+      <span style={{ fontSize: '13px', color: '#0f172a', fontWeight: 600 }}>
         {lead?.firstName} {lead?.lastName}
       </span>
 
@@ -45,18 +46,18 @@ export default function LeadHeader({ lead, isEditing, onEdit, onSave, onDelete, 
         
         {/* Assigned User Pill */}
         <div style={{
-          display: 'flex', alignItems: 'center', gap: '6px', background: '#171717',
-          border: '1px solid #2b2b2b', borderRadius: '16px', padding: '3px 10px 3px 4px', cursor: 'pointer'
+          display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc',
+          border: '1px solid #e2e8f0', borderRadius: '16px', padding: '3px 10px 3px 4px', cursor: 'pointer'
         }}
-        onMouseEnter={e => e.currentTarget.style.borderColor = '#388AE5'}
-        onMouseLeave={e => e.currentTarget.style.borderColor = '#2b2b2b'}>
+        onMouseEnter={e => e.currentTarget.style.borderColor = '#2563eb'}
+        onMouseLeave={e => e.currentTarget.style.borderColor = '#e2e8f0'}>
           <div style={{
-            width: '22px', height: '22px', borderRadius: '50%', background: '#388AE5',
+            width: '22px', height: '22px', borderRadius: '50%', background: '#2563eb',
             fontSize: '9px', fontWeight: 600, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}>
             {getInitials(lead?.assignedTo)}
           </div>
-          <span style={{ fontSize: '12px', color: '#afafaf' }}>{lead?.assignedTo || 'Unassigned'}</span>
+          <span style={{ fontSize: '12px', color: '#334155' }}>{lead?.assignedTo || 'Unassigned'}</span>
         </div>
 
         {/* Status Dropdown */}
@@ -64,22 +65,23 @@ export default function LeadHeader({ lead, isEditing, onEdit, onSave, onDelete, 
           <div
             onClick={() => setShowStatusDrop(!showStatusDrop)}
             style={{
-              display: 'flex', alignItems: 'center', gap: '6px', background: '#171717',
-              border: '1px solid #2b2b2b', borderRadius: '6px', padding: '4px 10px',
+              display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff',
+              border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 10px',
               cursor: 'pointer', fontSize: '12px'
             }}
-            onMouseEnter={e => e.currentTarget.style.borderColor = '#388AE5'}
-            onMouseLeave={e => e.currentTarget.style.borderColor = '#2b2b2b'}
+            onMouseEnter={e => e.currentTarget.style.borderColor = '#2563eb'}
+            onMouseLeave={e => e.currentTarget.style.borderColor = '#cbd5e1'}
           >
             <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: currentStatusColor }} />
-            <span style={{ color: '#afafaf' }}>{lead?.status || 'New'}</span>
-            <ChevronDown size={11} color="#383838" />
+            <span style={{ color: '#334155', fontWeight: 500 }}>{lead?.status || 'New'}</span>
+            <ChevronDown size={11} color="#64748b" />
           </div>
 
           {showStatusDrop && (
             <div style={{
-              position: 'absolute', top: 'calc(100% + 4px)', right: 0, background: '#1c1c1c',
-              border: '1px solid #2b2b2b', borderRadius: '8px', padding: '4px', zIndex: 100, minWidth: '160px'
+              position: 'absolute', top: 'calc(100% + 4px)', right: 0, background: '#ffffff',
+              border: '1px solid #e2e8f0', borderRadius: '8px', padding: '4px', zIndex: 100, minWidth: '160px',
+              boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
             }}>
               {Object.entries(statusColors).map(([status, color]) => (
                 <div
@@ -89,11 +91,11 @@ export default function LeadHeader({ lead, isEditing, onEdit, onSave, onDelete, 
                     setShowStatusDrop(false);
                   }}
                   style={{
-                    padding: '6px 12px', borderRadius: '5px', fontSize: '12.5px', color: '#afafaf',
+                    padding: '6px 12px', borderRadius: '5px', fontSize: '12.5px', color: '#334155',
                     display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer'
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = '#2b2b2b'; e.currentTarget.style.color = '#f8f8f8'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#afafaf'; }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.color = '#0f172a'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#334155'; }}
                 >
                   <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: color }} />
                   {status}
@@ -108,11 +110,11 @@ export default function LeadHeader({ lead, isEditing, onEdit, onSave, onDelete, 
           <button
             onClick={onEdit}
             style={{
-              background: 'transparent', border: '1px solid #2b2b2b', borderRadius: '6px',
-              padding: '4px 12px', fontSize: '12px', color: '#afafaf', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer'
+              background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px',
+              padding: '4px 12px', fontSize: '12px', color: '#334155', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer'
             }}
-            onMouseEnter={e => e.currentTarget.style.background = '#171717'}
-            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            onMouseEnter={e => e.currentTarget.style.background = '#f8fafc'}
+            onMouseLeave={e => e.currentTarget.style.background = '#ffffff'}
           >
             <Pencil size={12} /> Edit
           </button>
@@ -120,7 +122,7 @@ export default function LeadHeader({ lead, isEditing, onEdit, onSave, onDelete, 
           <button
             onClick={onSave}
             style={{
-              background: '#388AE5', border: 'none', borderRadius: '6px',
+              background: '#2563eb', border: 'none', borderRadius: '6px',
               padding: '4px 12px', fontSize: '12px', color: '#fff', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer'
             }}
           >
@@ -132,13 +134,13 @@ export default function LeadHeader({ lead, isEditing, onEdit, onSave, onDelete, 
         <button
           onClick={onDelete}
           style={{
-            background: 'transparent', border: '1px solid #2b2b2b', borderRadius: '6px',
+            background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px',
             padding: '4px 8px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
           }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = '#e03636'; e.currentTarget.style.background = '#1a0808'; e.currentTarget.querySelector('svg').style.color = '#e03636'; }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = '#2b2b2b'; e.currentTarget.style.background = 'transparent'; e.currentTarget.querySelector('svg').style.color = '#6b6b6b'; }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = '#dc2626'; e.currentTarget.style.background = '#fef2f2'; e.currentTarget.querySelector('svg').style.color = '#dc2626'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.background = '#ffffff'; e.currentTarget.querySelector('svg').style.color = '#64748b'; }}
         >
-          <Trash2 size={13} color="#6b6b6b" style={{ transition: 'color 0.15s' }} />
+          <Trash2 size={13} color="#64748b" style={{ transition: 'color 0.15s' }} />
         </button>
 
         {/* Convert */}
@@ -146,8 +148,8 @@ export default function LeadHeader({ lead, isEditing, onEdit, onSave, onDelete, 
           <button
             onClick={onConvert}
             style={{
-              background: 'transparent', border: '1px solid #173b2c', borderRadius: '6px',
-              padding: '5px 14px', fontSize: '13px', fontWeight: 500, color: '#28a745',
+              background: '#dcfce7', border: '1px solid #bbf7d0', borderRadius: '6px',
+              padding: '5px 14px', fontSize: '13px', fontWeight: 500, color: '#15803d',
               cursor: 'pointer'
             }}
           >
@@ -157,12 +159,12 @@ export default function LeadHeader({ lead, isEditing, onEdit, onSave, onDelete, 
           <button
             onClick={onConvert}
             style={{
-              background: '#f3f4f6', border: 'none', borderRadius: '6px',
-              padding: '5px 14px', fontSize: '13px', fontWeight: 500, color: '#111111',
+              background: '#0f172a', border: 'none', borderRadius: '6px',
+              padding: '5px 14px', fontSize: '13px', fontWeight: 500, color: '#ffffff',
               display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer'
             }}
-            onMouseEnter={e => e.currentTarget.style.background = '#e2e2e2'}
-            onMouseLeave={e => e.currentTarget.style.background = '#f3f4f6'}
+            onMouseEnter={e => e.currentTarget.style.background = '#1e293b'}
+            onMouseLeave={e => e.currentTarget.style.background = '#0f172a'}
           >
             <ArrowRightCircle size={13} /> Convert to Deal
           </button>

@@ -7,7 +7,7 @@ export default function SidebarBrand({ isCollapsed, onToggleCollapse }) {
     <div
       style={{
         padding: '12px 16px',
-        borderBottom: '1px solid #1c1c1c',
+        borderBottom: '1px solid #e2e8f0',
         display: 'flex',
         alignItems: 'center',
         gap: '10px',
@@ -15,6 +15,7 @@ export default function SidebarBrand({ isCollapsed, onToggleCollapse }) {
         flexShrink: 0,
         height: '52px',
         boxSizing: 'border-box',
+        background: '#ffffff',
       }}
     >
       <Link
@@ -32,15 +33,14 @@ export default function SidebarBrand({ isCollapsed, onToggleCollapse }) {
           style={{
             width: '28px',
             height: '28px',
-            backgroundColor: '#171717',
-            border: '1px solid #2b2b2b',
+            backgroundColor: '#0f172a',
             borderRadius: '6px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '13px',
             fontWeight: 700,
-            color: '#f8f8f8',
+            color: '#ffffff',
             flexShrink: 0,
           }}
         >
@@ -50,7 +50,7 @@ export default function SidebarBrand({ isCollapsed, onToggleCollapse }) {
         {!isCollapsed && (
           <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ fontSize: '14px', fontWeight: 600, color: '#f8f8f8', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', whiteSpace: 'nowrap' }}>
                 BOS
               </span>
             </div>
@@ -67,7 +67,7 @@ export default function SidebarBrand({ isCollapsed, onToggleCollapse }) {
           aria-label="Collapse sidebar"
           style={{
             marginLeft: 'auto',
-            color: '#424242',
+            color: '#94a3b8',
             cursor: 'pointer',
             padding: '2px',
             borderRadius: '4px',
@@ -79,8 +79,8 @@ export default function SidebarBrand({ isCollapsed, onToggleCollapse }) {
             transition: 'color 0.1s',
             flexShrink: 0,
           }}
-          onMouseEnter={e => e.currentTarget.style.color = '#7c7c7c'}
-          onMouseLeave={e => e.currentTarget.style.color = '#424242'}
+          onMouseEnter={e => e.currentTarget.style.color = '#0f172a'}
+          onMouseLeave={e => e.currentTarget.style.color = '#94a3b8'}
         >
           <ChevronLeft size={14} />
         </button>
@@ -88,4 +88,3 @@ export default function SidebarBrand({ isCollapsed, onToggleCollapse }) {
     </div>
   );
 }
-

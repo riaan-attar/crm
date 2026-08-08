@@ -8,7 +8,7 @@ import { X } from 'lucide-react';
 
 const FIELD_OPTIONS = [
   'ID', 'First Name', 'Last Name', 'Job Title',
-  'Status', 'Organization Name', 'Territory',
+  'Status', 'Project', 'Territory',
   'Mobile No', 'Lead Source', 'Created On',
 ];
 
@@ -18,14 +18,14 @@ const OPERATOR_OPTIONS = [
 
 const EMPTY_ROW = () => ({ id: Date.now() + Math.random(), field: 'ID', operator: 'Equals', value: '' });
 
-/* ─── shared input style ─────────────────────────────────────── */
+/* ─── shared input style (Light mode) ─────────────────────────────────── */
 const selectStyle = {
-  background: '#232323',
-  border: '1px solid #343434',
+  background: '#ffffff',
+  border: '1px solid #cbd5e1',
   borderRadius: '6px',
   padding: '6px 10px',
   fontSize: '12.5px',
-  color: '#f8f8f8',
+  color: '#0f172a',
   fontFamily: 'Inter, sans-serif',
   outline: 'none',
   cursor: 'pointer',
@@ -40,7 +40,6 @@ export default function FilterPanel({ isOpen, onClose }) {
     if (!isOpen) return;
     const handler = (e) => {
       if (panelRef.current && !panelRef.current.contains(e.target)) {
-        /* also allow Filter button click to toggle without double-close */
         if (!e.target.closest('.filter-bar-filter-btn')) {
           onClose();
         }
@@ -83,12 +82,12 @@ export default function FilterPanel({ isOpen, onClose }) {
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 999,
-        background: '#1a1a1a',
-        border: '1px solid #2b2b2b',
+        background: '#ffffff',
+        border: '1px solid #e2e8f0',
         borderRadius: '10px',
         padding: '16px',
         minWidth: '520px',
-        boxShadow: '0 12px 32px rgba(0,0,0,0.6)',
+        boxShadow: '0 12px 32px rgba(0,0,0,0.12)',
         fontFamily: 'Inter, sans-serif',
       }}
     >
@@ -103,7 +102,7 @@ export default function FilterPanel({ isOpen, onClose }) {
           height: 0,
           borderLeft: '7px solid transparent',
           borderRight: '7px solid transparent',
-          borderBottom: '7px solid #2b2b2b',
+          borderBottom: '7px solid #cbd5e1',
         }}
       />
       {/* Inner caret fill */}
@@ -117,7 +116,7 @@ export default function FilterPanel({ isOpen, onClose }) {
           height: 0,
           borderLeft: '6px solid transparent',
           borderRight: '6px solid transparent',
-          borderBottom: '6px solid #1a1a1a',
+          borderBottom: '6px solid #ffffff',
         }}
       />
 
@@ -140,7 +139,7 @@ export default function FilterPanel({ isOpen, onClose }) {
           justifyContent: 'space-between',
           alignItems: 'center',
           marginTop: '12px',
-          borderTop: '1px solid #232323',
+          borderTop: '1px solid #f1f5f9',
           paddingTop: '12px',
         }}
       >
@@ -149,23 +148,23 @@ export default function FilterPanel({ isOpen, onClose }) {
           <PanelBtn
             onClick={clearFilters}
             style={{
-              background: 'transparent',
-              border: '1px solid #343434',
-              color: '#afafaf',
+              background: '#ffffff',
+              border: '1px solid #cbd5e1',
+              color: '#475569',
             }}
-            hoverStyle={{ background: '#232323', color: '#f8f8f8' }}
+            hoverStyle={{ background: '#f8fafc', color: '#0f172a' }}
           >
             Clear Filters
           </PanelBtn>
           <PanelBtn
             onClick={applyFilters}
             style={{
-              background: '#f3f4f6',
+              background: '#0f172a',
               border: 'none',
-              color: '#111111',
+              color: '#ffffff',
               fontWeight: '500',
             }}
-            hoverStyle={{ background: '#e5e7eb' }}
+            hoverStyle={{ background: '#1e293b' }}
           >
             Apply Filters
           </PanelBtn>
@@ -188,7 +187,7 @@ function FilterRow({ row, onUpdate, onRemove }) {
         style={{ ...selectStyle, width: '160px' }}
       >
         {FIELD_OPTIONS.map(opt => (
-          <option key={opt} value={opt} style={{ background: '#232323' }}>
+          <option key={opt} value={opt} style={{ background: '#ffffff' }}>
             {opt}
           </option>
         ))}
@@ -201,7 +200,7 @@ function FilterRow({ row, onUpdate, onRemove }) {
         style={{ ...selectStyle, width: '130px' }}
       >
         {OPERATOR_OPTIONS.map(opt => (
-          <option key={opt} value={opt} style={{ background: '#232323' }}>
+          <option key={opt} value={opt} style={{ background: '#ffffff' }}>
             {opt}
           </option>
         ))}
@@ -230,7 +229,7 @@ function FilterRow({ row, onUpdate, onRemove }) {
           background: 'transparent',
           border: 'none',
           cursor: 'pointer',
-          color: removeHov ? '#f8f8f8' : '#6b6b6b',
+          color: removeHov ? '#0f172a' : '#94a3b8',
           display: 'flex',
           alignItems: 'center',
           padding: '4px',
@@ -255,7 +254,7 @@ function AddRowBtn({ onClick }) {
       style={{
         background: 'transparent',
         border: 'none',
-        color: hov ? '#f8f8f8' : '#7c7c7c',
+        color: hov ? '#2563eb' : '#64748b',
         fontSize: '12.5px',
         cursor: 'pointer',
         fontFamily: 'Inter, sans-serif',

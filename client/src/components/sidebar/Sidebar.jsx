@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import SidebarBrand from './SidebarBrand';
 import SidebarNavItem from './SidebarNavItem';
@@ -15,8 +14,8 @@ function SidebarSectionLabel({ label, isOpen, onToggle, isCollapsed }) {
       style={{
         padding: '10px 16px 4px',
         fontSize: '11px',
-        fontWeight: 500,
-        color: '#383838',
+        fontWeight: 600,
+        color: '#94a3b8',
         letterSpacing: '0.04em',
         display: 'flex',
         alignItems: 'center',
@@ -45,8 +44,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, onOpenNotificatio
         width: isCollapsed ? '48px' : '220px',
         minWidth: isCollapsed ? '48px' : '220px',
         height: '100vh',
-        background: '#0f0f0f',
-        borderRight: '1px solid #1c1c1c',
+        background: '#ffffff',
+        borderRight: '1px solid #e2e8f0',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -144,4 +143,3 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, onOpenNotificatio
     </aside>
   );
 }
-

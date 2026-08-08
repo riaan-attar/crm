@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import * as Icons from 'lucide-react';
 
 export default function SidebarNavItem({ item, isCollapsed, onClick }) {
   const [hovered, setHovered] = useState(false);
-  const location = useLocation();
-  
-  const routePath = item.route.split('?')[0];
   const Icon = Icons[item.icon] || Icons.Circle;
 
-  const Wrapper = onClick ? 'div' : NavLink;
-  
   const wrapperProps = onClick 
     ? { onClick }
     : {
@@ -30,13 +25,13 @@ export default function SidebarNavItem({ item, isCollapsed, onClick }) {
     cursor: 'pointer',
     gap: isCollapsed ? '0' : '8px',
     textDecoration: 'none',
-    transition: 'background 0.1s',
+    transition: 'all 0.15s',
   };
 
   const renderContent = (isActive) => {
-    const iconColor = isActive ? '#f8f8f8' : hovered ? '#afafaf' : '#6b6b6b';
-    const labelColor = isActive ? '#f8f8f8' : hovered ? '#afafaf' : '#7c7c7c';
-    const fontWeight = isActive ? 500 : 400;
+    const iconColor = isActive ? '#2563eb' : hovered ? '#0f172a' : '#64748b';
+    const labelColor = isActive ? '#2563eb' : hovered ? '#0f172a' : '#475569';
+    const fontWeight = isActive ? 600 : 400;
 
     return (
       <>
@@ -60,7 +55,7 @@ export default function SidebarNavItem({ item, isCollapsed, onClick }) {
               <span
                 style={{
                   marginLeft: 'auto',
-                  background: '#e03636',
+                  background: '#ef4444',
                   color: '#ffffff',
                   fontSize: '10px',
                   fontWeight: 600,
@@ -88,7 +83,7 @@ export default function SidebarNavItem({ item, isCollapsed, onClick }) {
         {...wrapperProps}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        style={{ ...styleObj, background: hovered ? '#171717' : 'transparent' }}
+        style={{ ...styleObj, background: hovered ? '#f1f5f9' : 'transparent' }}
       >
         {renderContent(false)}
       </div>
@@ -103,8 +98,8 @@ export default function SidebarNavItem({ item, isCollapsed, onClick }) {
       style={({ isActive }) => {
         return {
           ...styleObj,
-          background: isActive ? '#1c1c1c' : hovered ? '#171717' : 'transparent',
-          border: isActive ? '1px solid #1a1a1a' : '1px solid transparent',
+          background: isActive ? '#eff6ff' : hovered ? '#f1f5f9' : 'transparent',
+          border: isActive ? '1px solid #dbeafe' : '1px solid transparent',
         };
       }}
     >
