@@ -91,6 +91,10 @@ npm run build
 # 5. Configure Caddy Web Server
 echo "[5/6] Configuring Caddy for ${DOMAIN}..."
 
+# Ensure Caddy user can read build files if cloned in /root or home
+chmod 755 /root 2>/dev/null || true
+chmod -R 755 "${PROJECT_DIR}/client/dist" 2>/dev/null || true
+
 # Create Caddyfile configuration
 sudo mkdir -p /etc/caddy
 sudo cat <<EOF > /etc/caddy/Caddyfile
