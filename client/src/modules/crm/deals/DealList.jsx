@@ -2,32 +2,43 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOpportunities } from '../../../context/OpportunitiesContext';
 import AddDealModal from './AddDealModal';
+import DealKanbanView from './components/DealKanbanView';
 import {
   Plus, LayoutList, ChevronDown, MoreHorizontal, RefreshCw,
-  SlidersHorizontal, ArrowUpDown, Columns, Handshake, Phone, Mail, MessageCircle
+  SlidersHorizontal, ArrowUpDown, Columns, Handshake, Kanban, Search
 } from 'lucide-react';
 
 export default function DealList() {
-  const { opportunities, addOpportunity } = useOpportunities();
+  const { opportunities, addOpportunity, updateOpportunity } = useOpportunities();
   const navigate = useNavigate();
+  const [viewMode, setViewMode] = useState('kanban'); // 'kanban' | 'list'
+  const [showViewMenu, setShowViewMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [modalInitialStage, setModalInitialStage] = useState('Qualification');
   const [selectedRows, setSelectedRows] = useState([]);
   const [hoveredRow, setHoveredRow] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleSave = (formData) => {
     addOpportunity({
       ...formData,
       id: `OPP-${String(opportunities.length + 1).padStart(4, '0')}`,
       createdOn: new Date().toLocaleDateString('en-IN'),
-      stage: 'Qualification',
+      stage: formData.stage || modalInitialStage || 'Qualification',
+      status: formData.status || 'Open',
     });
   };
 
+  const handleOpenModalWithStage = (stage = 'Qualification') => {
+    setModalInitialStage(stage);
+    setShowModal(true);
+  };
+
   const toggleAll = () => {
-    if (selectedRows.length === opportunities.length && opportunities.length > 0) {
+    if (selectedRows.length === filteredDeals.length && filteredDeals.length > 0) {
       setSelectedRows([]);
     } else {
-      setSelectedRows(opportunities.map(o => o.id));
+      setSelectedRows(filteredDeals.map(o => o.id));
     }
   };
 
@@ -57,19 +68,128 @@ export default function DealList() {
       case 'Proposal': return { bg: '#371e06', color: '#e79913' };
       case 'Negotiation': return { bg: '#2d1a4a', color: '#9c45e3' };
       case 'Ready to Close': return { bg: '#0b2e1c', color: '#30a66d' };
+      case 'Won': return { bg: '#173b2c', color: '#28a745' };
+      case 'Lost': return { bg: '#361515', color: '#e03636' };
       default: return { bg: '#232323', color: '#7c7c7c' };
     }
   };
 
+  const filteredDeals = opportunities.filter(deal => {
+    if (!searchTerm) return true;
+    const term = searchTerm.toLowerCase();
+    return (
+      deal.title?.toLowerCase().includes(term) ||
+      deal.party?.toLowerCase().includes(term) ||
+      deal.stage?.toLowerCase().includes(term) ||
+      deal.status?.toLowerCase().includes(term)
+    );
+  });
+
   const tableGridTemplate = '40px 240px 180px 140px 140px 140px 140px 140px';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#0f0f0f' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#0f0f0f', overflow: 'hidden' }}>
       {/* PAGE HEADER */}
       <div style={{ height: '48px', background: '#0a0a0a', borderBottom: '1px solid #1c1c1c', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-        <div style={{ fontSize: '16px', fontWeight: '600', color: '#f8f8f8' }}>Deals</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '16px', fontWeight: '600', color: '#f8f8f8' }}>Deals</span>
+          <span style={{ fontSize: '14px', color: '#383838' }}>/</span>
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setShowViewMenu(!showViewMenu)}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#afafaf',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                cursor: 'pointer',
+                padding: '2px 6px',
+                borderRadius: '4px',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#f8f8f8'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#afafaf'}
+            >
+              {viewMode === 'kanban' ? 'Kanban' : 'List'} <ChevronDown size={13} />
+            </button>
+            {showViewMenu && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: 0,
+                  marginTop: '4px',
+                  background: '#1a1a1a',
+                  border: '1px solid #2b2b2b',
+                  borderRadius: '6px',
+                  padding: '4px',
+                  zIndex: 100,
+                  minWidth: '140px',
+                  boxShadow: '0 8px 20px rgba(0,0,0,0.5)',
+                }}
+              >
+                <div
+                  onClick={() => {
+                    setViewMode('kanban');
+                    setShowViewMenu(false);
+                  }}
+                  style={{
+                    padding: '6px 10px',
+                    borderRadius: '4px',
+                    fontSize: '12.5px',
+                    color: viewMode === 'kanban' ? '#388AE5' : '#afafaf',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    background: viewMode === 'kanban' ? 'rgba(56, 138, 229, 0.1)' : 'transparent',
+                    fontWeight: viewMode === 'kanban' ? 500 : 400,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (viewMode !== 'kanban') e.currentTarget.style.background = '#232323';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (viewMode !== 'kanban') e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <Kanban size={13} /> Kanban View
+                </div>
+                <div
+                  onClick={() => {
+                    setViewMode('list');
+                    setShowViewMenu(false);
+                  }}
+                  style={{
+                    padding: '6px 10px',
+                    borderRadius: '4px',
+                    fontSize: '12.5px',
+                    color: viewMode === 'list' ? '#388AE5' : '#afafaf',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    background: viewMode === 'list' ? 'rgba(56, 138, 229, 0.1)' : 'transparent',
+                    fontWeight: viewMode === 'list' ? 500 : 400,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (viewMode !== 'list') e.currentTarget.style.background = '#232323';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (viewMode !== 'list') e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <LayoutList size={13} /> List View
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
         <button 
-          onClick={() => setShowModal(true)}
+          onClick={() => handleOpenModalWithStage('Qualification')}
           style={{ background: '#f3f4f6', border: 'none', borderRadius: '6px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#111111', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', transition: 'background 0.1s' }}
           onMouseEnter={e => e.currentTarget.style.background = '#e2e2e2'}
           onMouseLeave={e => e.currentTarget.style.background = '#f3f4f6'}
@@ -81,13 +201,29 @@ export default function DealList() {
       {/* TOOLBAR */}
       <div style={{ height: '40px', background: '#0a0a0a', borderBottom: '1px solid #1c1c1c', padding: '0 20px', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button style={{ background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#afafaf', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
-            <LayoutList size={13} /> List View <ChevronDown size={11} color="#383838" />
-          </button>
-          <button style={{ background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#afafaf', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <MoreHorizontal size={13} color="#7c7c7c" />
-          </button>
+          <div style={{ position: 'relative' }}>
+            <button 
+              onClick={() => setShowViewMenu(!showViewMenu)}
+              style={{ background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#afafaf', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}
+            >
+              {viewMode === 'kanban' ? <Kanban size={13} /> : <LayoutList size={13} />}
+              {viewMode === 'kanban' ? 'Kanban View' : 'List View'}
+              <ChevronDown size={11} color="#7c7c7c" />
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '0 8px', height: '26px' }}>
+            <Search size={13} color="#7c7c7c" style={{ marginRight: '6px' }} />
+            <input
+              type="text"
+              placeholder="Search deals..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ background: 'transparent', border: 'none', color: '#f8f8f8', fontSize: '12px', outline: 'none', width: '140px' }}
+            />
+          </div>
         </div>
+
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <button style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#6b6b6b', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onMouseEnter={e => e.currentTarget.style.color = '#f8f8f8'} onMouseLeave={e => e.currentTarget.style.color = '#6b6b6b'}>
             <RefreshCw size={14} color="currentColor" />
@@ -101,19 +237,22 @@ export default function DealList() {
           <button style={{ background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#afafaf', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
             <Columns size={13} /> Columns
           </button>
-          <button style={{ background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#afafaf', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <MoreHorizontal size={13} color="#7c7c7c" />
-          </button>
         </div>
       </div>
 
-      {/* TABLE */}
-      {opportunities.length === 0 ? (
+      {/* VIEW CONTAINER */}
+      {viewMode === 'kanban' ? (
+        <DealKanbanView
+          opportunities={filteredDeals}
+          updateOpportunity={updateOpportunity}
+          onAddDealWithStage={handleOpenModalWithStage}
+        />
+      ) : filteredDeals.length === 0 ? (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <Handshake size={48} color="#232323" strokeWidth={1} />
           <div style={{ fontSize: '14px', color: '#383838', marginTop: '12px', marginBottom: '16px' }}>No deals found</div>
           <button 
-            onClick={() => setShowModal(true)}
+            onClick={() => handleOpenModalWithStage('Qualification')}
             style={{ background: '#f3f4f6', border: 'none', borderRadius: '6px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#111111', cursor: 'pointer' }}
           >
             + Create your first Deal
@@ -126,7 +265,7 @@ export default function DealList() {
             <div style={{ padding: '0', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px' }}>
               <input 
                 type="checkbox" 
-                checked={selectedRows.length === opportunities.length && opportunities.length > 0} 
+                checked={selectedRows.length === filteredDeals.length && filteredDeals.length > 0} 
                 onChange={toggleAll}
                 style={{ width: '14px', height: '14px', borderRadius: '3px', border: '1px solid #2b2b2b', background: 'transparent', cursor: 'pointer', accentColor: '#388AE5' }}
               />
@@ -139,7 +278,7 @@ export default function DealList() {
           </div>
 
           {/* ROWS */}
-          {opportunities.map(deal => {
+          {filteredDeals.map(deal => {
             const isSelected = selectedRows.includes(deal.id);
             const isHovered = hoveredRow === deal.id;
             const statusStyle = getStatusStyle(deal.status);
@@ -224,6 +363,7 @@ export default function DealList() {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onSave={handleSave}
+        initialStage={modalInitialStage}
       />
     </div>
   );

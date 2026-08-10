@@ -3,6 +3,7 @@
  */
 import React, { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
+import { getStoredDealStages } from '../../../utils/dealStages';
 
 const DEAL_FROM_OPTIONS = ['Lead', 'Customer', 'Prospect', 'Existing Client'];
 const STATUS_OPTIONS = ['Open', 'Replied', 'Interested', 'Won', 'Lost', 'Do Not Contact'];
@@ -13,6 +14,7 @@ const INITIAL_FORM = {
   opportunityFrom: 'Lead',
   party: '',
   status: 'Open',
+  stage: 'Qualification',
   amount: '',
   propertyType: '',
   expectedCloseDate: '',
@@ -69,13 +71,19 @@ function FocusInput({ as: Tag = 'input', style: extraStyle, ...props }) {
   );
 }
 
-export default function AddDealModal({ isOpen, onClose, onSave }) {
+export default function AddDealModal({ isOpen, onClose, onSave, initialStage = 'Qualification' }) {
   const [form, setForm] = useState(INITIAL_FORM);
   const overlayRef = useRef(null);
+  const stageOptions = getStoredDealStages();
 
   useEffect(() => {
-    if (isOpen) setForm(INITIAL_FORM);
-  }, [isOpen]);
+    if (isOpen) {
+      setForm({
+        ...INITIAL_FORM,
+        stage: initialStage || 'Qualification',
+      });
+    }
+  }, [isOpen, initialStage]);
 
   if (!isOpen) return null;
 
@@ -190,7 +198,22 @@ export default function AddDealModal({ isOpen, onClose, onSave }) {
             </FieldGroup>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+            <FieldGroup label="Stage">
+              <FocusInput
+                as="select"
+                name="stage"
+                value={form.stage}
+                onChange={handleChange}
+                style={{ cursor: 'pointer' }}
+              >
+                {stageOptions.map(opt => (
+                  <option key={opt.id} value={opt.id} style={{ background: '#232323' }}>
+                    {opt.label}
+                  </option>
+                ))}
+              </FocusInput>
+            </FieldGroup>
             <FieldGroup label="Status">
               <FocusInput
                 as="select"
@@ -210,7 +233,7 @@ export default function AddDealModal({ isOpen, onClose, onSave }) {
               <FocusInput
                 type="number"
                 name="amount"
-                placeholder="Expected deal value in ₹"
+                placeholder="Value in ₹"
                 value={form.amount}
                 onChange={handleChange}
               />
