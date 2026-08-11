@@ -24,12 +24,12 @@ const INITIAL_FORM = {
 /* ─── Shared styles ─────────────────────────────────────────── */
 const inputStyle = {
   width: '100%',
-  background: '#232323',
-  border: '1px solid #343434',
+  background: '#ffffff',
+  border: '1px solid #cbd5e1',
   borderRadius: '6px',
   padding: '7px 11px',
   fontSize: '13px',
-  color: '#f8f8f8',
+  color: '#0f172a',
   fontFamily: 'Inter, sans-serif',
   outline: 'none',
   boxSizing: 'border-box',
@@ -40,7 +40,7 @@ const labelStyle = {
   display: 'block',
   fontSize: '11px',
   fontWeight: '500',
-  color: '#7c7c7c',
+  color: '#475569',
   textTransform: 'uppercase',
   letterSpacing: '0.05em',
   marginBottom: '5px',
@@ -63,7 +63,7 @@ function FocusInput({ as: Tag = 'input', style: extraStyle, ...props }) {
       style={{
         ...inputStyle,
         ...extraStyle,
-        borderColor: focused ? '#388AE5' : '#343434',
+        borderColor: focused ? '#2563eb' : '#cbd5e1',
       }}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
@@ -108,7 +108,8 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0,0,0,0.75)',
+        background: 'rgba(15,23,42,0.4)',
+        backdropFilter: 'blur(2px)',
         zIndex: 9999,
         display: 'flex',
         alignItems: 'center',
@@ -118,8 +119,8 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
     >
       <div
         style={{
-          background: '#1a1a1a',
-          border: '1px solid #2b2b2b',
+          background: '#ffffff',
+          border: '1px solid #cbd5e1',
           borderRadius: '10px',
           width: '500px',
           maxWidth: '94vw',
@@ -127,6 +128,7 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
           overflowY: 'auto',
           padding: '24px',
           position: 'relative',
+          boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
         }}
       >
         <div
@@ -137,7 +139,7 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
             marginBottom: '22px',
           }}
         >
-          <span style={{ fontSize: '16px', fontWeight: '600', color: '#f8f8f8' }}>
+          <span style={{ fontSize: '16px', fontWeight: '600', color: '#0f172a' }}>
             New Deal
           </span>
           <button
@@ -148,13 +150,13 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
               border: 'none',
               cursor: 'pointer',
               padding: '2px',
-              color: '#6b6b6b',
+              color: '#64748b',
               display: 'flex',
               alignItems: 'center',
               transition: 'color 0.15s',
             }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#f8f8f8')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#6b6b6b')}
+            onMouseEnter={e => (e.currentTarget.style.color = '#0f172a')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#64748b')}
           >
             <X size={16} />
           </button>
@@ -181,7 +183,7 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
                 style={{ cursor: 'pointer' }}
               >
                 {DEAL_FROM_OPTIONS.map(opt => (
-                  <option key={opt} value={opt} style={{ background: '#232323' }}>
+                  <option key={opt} value={opt} style={{ background: '#ffffff', color: '#0f172a' }}>
                     {opt}
                   </option>
                 ))}
@@ -208,7 +210,7 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
                 style={{ cursor: 'pointer' }}
               >
                 {stageOptions.map(opt => (
-                  <option key={opt.id} value={opt.id} style={{ background: '#232323' }}>
+                  <option key={opt.id} value={opt.id} style={{ background: '#ffffff', color: '#0f172a' }}>
                     {opt.label}
                   </option>
                 ))}
@@ -223,7 +225,7 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
                 style={{ cursor: 'pointer' }}
               >
                 {STATUS_OPTIONS.map(opt => (
-                  <option key={opt} value={opt} style={{ background: '#232323' }}>
+                  <option key={opt} value={opt} style={{ background: '#ffffff', color: '#0f172a' }}>
                     {opt}
                   </option>
                 ))}
@@ -249,9 +251,9 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
                 onChange={handleChange}
                 style={{ cursor: 'pointer' }}
               >
-                <option value="" style={{ background: '#232323' }}>Select…</option>
+                <option value="" style={{ background: '#ffffff', color: '#0f172a' }}>Select…</option>
                 {PROPERTY_OPTIONS.map(opt => (
-                  <option key={opt} value={opt} style={{ background: '#232323' }}>
+                  <option key={opt} value={opt} style={{ background: '#ffffff', color: '#0f172a' }}>
                     {opt}
                   </option>
                 ))}
@@ -271,43 +273,35 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
             <FocusInput
               as="textarea"
               name="notes"
-              rows={3}
-              placeholder="Any relevant notes about this deal..."
+              placeholder="Additional information…"
               value={form.notes}
               onChange={handleChange}
-              style={{ resize: 'vertical' }}
+              style={{ height: '70px', resize: 'vertical' }}
             />
           </FieldGroup>
         </div>
 
         <div
           style={{
-            marginTop: '22px',
             display: 'flex',
             justifyContent: 'flex-end',
-            gap: '10px',
+            gap: '8px',
+            marginTop: '22px',
+            paddingTop: '16px',
+            borderTop: '1px solid #e2e8f0',
           }}
         >
           <button
             onClick={onClose}
             style={{
-              background: 'transparent',
-              border: '1px solid #343434',
+              background: '#f1f5f9',
+              border: '1px solid #cbd5e1',
               borderRadius: '6px',
               padding: '7px 16px',
               fontSize: '13px',
-              color: '#afafaf',
+              color: '#334155',
               cursor: 'pointer',
-              fontFamily: 'Inter, sans-serif',
-              transition: 'background 0.15s, color 0.15s',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = '#232323';
-              e.currentTarget.style.color = '#f8f8f8';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = '#afafaf';
+              fontWeight: '500',
             }}
           >
             Cancel
@@ -315,19 +309,17 @@ export default function AddDealModal({ isOpen, onClose, onSave, initialStage = '
           <button
             onClick={handleSave}
             style={{
-              background: '#f3f4f6',
+              background: '#2563eb',
               border: 'none',
               borderRadius: '6px',
-              padding: '7px 16px',
+              padding: '7px 18px',
               fontSize: '13px',
               fontWeight: '500',
-              color: '#111111',
+              color: '#ffffff',
               cursor: 'pointer',
-              fontFamily: 'Inter, sans-serif',
-              transition: 'background 0.15s',
             }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#e5e7eb')}
-            onMouseLeave={e => (e.currentTarget.style.background = '#f3f4f6')}
+            onMouseEnter={e => (e.currentTarget.style.background = '#1d4ed8')}
+            onMouseLeave={e => (e.currentTarget.style.background = '#2563eb')}
           >
             Save Deal
           </button>

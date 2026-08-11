@@ -53,24 +53,24 @@ export default function DealList() {
 
   const getStatusStyle = (status) => {
     switch (status) {
-      case 'Open': return { bg: '#0e2037', color: '#5aaef2', dot: '#5aaef2' };
-      case 'Won': return { bg: '#173b2c', color: '#28a745', dot: '#28a745' };
-      case 'Lost': return { bg: '#361515', color: '#e03636', dot: '#e03636' };
-      case 'Replied': return { bg: '#371e06', color: '#e79913', dot: '#e79913' };
-      default: return { bg: '#232323', color: '#7c7c7c', dot: '#7c7c7c' };
+      case 'Open': return { bg: '#e0f2fe', color: '#0369a1', dot: '#0284c7' };
+      case 'Won': return { bg: '#dcfce7', color: '#15803d', dot: '#16a34a' };
+      case 'Lost': return { bg: '#fee2e2', color: '#b91c1c', dot: '#dc2626' };
+      case 'Replied': return { bg: '#fef3c7', color: '#b45309', dot: '#d97706' };
+      default: return { bg: '#f1f5f9', color: '#475569', dot: '#64748b' };
     }
   };
 
   const getStageStyle = (stage) => {
     switch (stage) {
-      case 'Qualification': return { bg: '#232323', color: '#7c7c7c' };
-      case 'Demo': return { bg: '#0e2037', color: '#5aaef2' };
-      case 'Proposal': return { bg: '#371e06', color: '#e79913' };
-      case 'Negotiation': return { bg: '#2d1a4a', color: '#9c45e3' };
-      case 'Ready to Close': return { bg: '#0b2e1c', color: '#30a66d' };
-      case 'Won': return { bg: '#173b2c', color: '#28a745' };
-      case 'Lost': return { bg: '#361515', color: '#e03636' };
-      default: return { bg: '#232323', color: '#7c7c7c' };
+      case 'Qualification': return { bg: '#f1f5f9', color: '#475569' };
+      case 'Demo': return { bg: '#e0f2fe', color: '#0369a1' };
+      case 'Proposal': return { bg: '#fef3c7', color: '#b45309' };
+      case 'Negotiation': return { bg: '#f3e8ff', color: '#7e22ce' };
+      case 'Ready to Close': return { bg: '#d1fae5', color: '#047857' };
+      case 'Won': return { bg: '#dcfce7', color: '#15803d' };
+      case 'Lost': return { bg: '#fee2e2', color: '#b91c1c' };
+      default: return { bg: '#f1f5f9', color: '#475569' };
     }
   };
 
@@ -88,12 +88,12 @@ export default function DealList() {
   const tableGridTemplate = '40px 240px 180px 140px 140px 140px 140px 140px';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#0f0f0f', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#ffffff', overflow: 'hidden' }}>
       {/* PAGE HEADER */}
-      <div style={{ height: '48px', background: '#0a0a0a', borderBottom: '1px solid #1c1c1c', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+      <div style={{ height: '48px', background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '16px', fontWeight: '600', color: '#f8f8f8' }}>Deals</span>
-          <span style={{ fontSize: '14px', color: '#383838' }}>/</span>
+          <span style={{ fontSize: '16px', fontWeight: '600', color: '#0f172a' }}>Deals</span>
+          <span style={{ fontSize: '14px', color: '#cbd5e1' }}>/</span>
           <div style={{ position: 'relative' }}>
             <button
               onClick={() => setShowViewMenu(!showViewMenu)}
@@ -102,7 +102,7 @@ export default function DealList() {
                 border: 'none',
                 fontSize: '14px',
                 fontWeight: '500',
-                color: '#afafaf',
+                color: '#475569',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
@@ -110,8 +110,8 @@ export default function DealList() {
                 padding: '2px 6px',
                 borderRadius: '4px',
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#f8f8f8'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#afafaf'}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#0f172a'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#475569'}
             >
               {viewMode === 'kanban' ? 'Kanban' : 'List'} <ChevronDown size={13} />
             </button>
@@ -122,13 +122,13 @@ export default function DealList() {
                   top: '100%',
                   left: 0,
                   marginTop: '4px',
-                  background: '#1a1a1a',
-                  border: '1px solid #2b2b2b',
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
                   borderRadius: '6px',
                   padding: '4px',
                   zIndex: 100,
                   minWidth: '140px',
-                  boxShadow: '0 8px 20px rgba(0,0,0,0.5)',
+                  boxShadow: '0 8px 20px rgba(0,0,0,0.08)',
                 }}
               >
                 <div
@@ -140,16 +140,16 @@ export default function DealList() {
                     padding: '6px 10px',
                     borderRadius: '4px',
                     fontSize: '12.5px',
-                    color: viewMode === 'kanban' ? '#388AE5' : '#afafaf',
+                    color: viewMode === 'kanban' ? '#2563eb' : '#475569',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
                     cursor: 'pointer',
-                    background: viewMode === 'kanban' ? 'rgba(56, 138, 229, 0.1)' : 'transparent',
+                    background: viewMode === 'kanban' ? '#eff6ff' : 'transparent',
                     fontWeight: viewMode === 'kanban' ? 500 : 400,
                   }}
                   onMouseEnter={(e) => {
-                    if (viewMode !== 'kanban') e.currentTarget.style.background = '#232323';
+                    if (viewMode !== 'kanban') e.currentTarget.style.background = '#f8fafc';
                   }}
                   onMouseLeave={(e) => {
                     if (viewMode !== 'kanban') e.currentTarget.style.background = 'transparent';
@@ -166,16 +166,16 @@ export default function DealList() {
                     padding: '6px 10px',
                     borderRadius: '4px',
                     fontSize: '12.5px',
-                    color: viewMode === 'list' ? '#388AE5' : '#afafaf',
+                    color: viewMode === 'list' ? '#2563eb' : '#475569',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
                     cursor: 'pointer',
-                    background: viewMode === 'list' ? 'rgba(56, 138, 229, 0.1)' : 'transparent',
+                    background: viewMode === 'list' ? '#eff6ff' : 'transparent',
                     fontWeight: viewMode === 'list' ? 500 : 400,
                   }}
                   onMouseEnter={(e) => {
-                    if (viewMode !== 'list') e.currentTarget.style.background = '#232323';
+                    if (viewMode !== 'list') e.currentTarget.style.background = '#f8fafc';
                   }}
                   onMouseLeave={(e) => {
                     if (viewMode !== 'list') e.currentTarget.style.background = 'transparent';
@@ -190,51 +190,51 @@ export default function DealList() {
 
         <button 
           onClick={() => handleOpenModalWithStage('Qualification')}
-          style={{ background: '#f3f4f6', border: 'none', borderRadius: '6px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#111111', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', transition: 'background 0.1s' }}
-          onMouseEnter={e => e.currentTarget.style.background = '#e2e2e2'}
-          onMouseLeave={e => e.currentTarget.style.background = '#f3f4f6'}
+          style={{ background: '#2563eb', border: 'none', borderRadius: '6px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', transition: 'background 0.1s' }}
+          onMouseEnter={e => e.currentTarget.style.background = '#1d4ed8'}
+          onMouseLeave={e => e.currentTarget.style.background = '#2563eb'}
         >
-          <Plus size={14} color="#111" /> Create
+          <Plus size={14} color="#ffffff" /> Create
         </button>
       </div>
 
       {/* TOOLBAR */}
-      <div style={{ height: '40px', background: '#0a0a0a', borderBottom: '1px solid #1c1c1c', padding: '0 20px', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+      <div style={{ height: '40px', background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '0 20px', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div style={{ position: 'relative' }}>
             <button 
               onClick={() => setShowViewMenu(!showViewMenu)}
-              style={{ background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#afafaf', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}
+              style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#475569', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}
             >
               {viewMode === 'kanban' ? <Kanban size={13} /> : <LayoutList size={13} />}
               {viewMode === 'kanban' ? 'Kanban View' : 'List View'}
-              <ChevronDown size={11} color="#7c7c7c" />
+              <ChevronDown size={11} color="#64748b" />
             </button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '0 8px', height: '26px' }}>
-            <Search size={13} color="#7c7c7c" style={{ marginRight: '6px' }} />
+          <div style={{ display: 'flex', alignItems: 'center', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '0 8px', height: '26px' }}>
+            <Search size={13} color="#64748b" style={{ marginRight: '6px' }} />
             <input
               type="text"
               placeholder="Search deals..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ background: 'transparent', border: 'none', color: '#f8f8f8', fontSize: '12px', outline: 'none', width: '140px' }}
+              style={{ background: 'transparent', border: 'none', color: '#0f172a', fontSize: '12px', outline: 'none', width: '140px' }}
             />
           </div>
         </div>
 
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#6b6b6b', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onMouseEnter={e => e.currentTarget.style.color = '#f8f8f8'} onMouseLeave={e => e.currentTarget.style.color = '#6b6b6b'}>
+          <button style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onMouseEnter={e => e.currentTarget.style.color = '#0f172a'} onMouseLeave={e => e.currentTarget.style.color = '#64748b'}>
             <RefreshCw size={14} color="currentColor" />
           </button>
-          <button style={{ background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#afafaf', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+          <button style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#475569', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
             <SlidersHorizontal size={13} /> Filter
           </button>
-          <button style={{ background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#afafaf', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+          <button style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#475569', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
             <ArrowUpDown size={13} /> Sort
           </button>
-          <button style={{ background: '#171717', border: '1px solid #2b2b2b', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#afafaf', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+          <button style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', color: '#475569', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
             <Columns size={13} /> Columns
           </button>
         </div>
@@ -249,29 +249,29 @@ export default function DealList() {
         />
       ) : filteredDeals.length === 0 ? (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-          <Handshake size={48} color="#232323" strokeWidth={1} />
-          <div style={{ fontSize: '14px', color: '#383838', marginTop: '12px', marginBottom: '16px' }}>No deals found</div>
+          <Handshake size={48} color="#cbd5e1" strokeWidth={1} />
+          <div style={{ fontSize: '14px', color: '#64748b', marginTop: '12px', marginBottom: '16px' }}>No deals found</div>
           <button 
             onClick={() => handleOpenModalWithStage('Qualification')}
-            style={{ background: '#f3f4f6', border: 'none', borderRadius: '6px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#111111', cursor: 'pointer' }}
+            style={{ background: '#2563eb', border: 'none', borderRadius: '6px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#ffffff', cursor: 'pointer' }}
           >
             + Create your first Deal
           </button>
         </div>
       ) : (
-        <div style={{ flex: 1, overflowY: 'auto', background: '#0f0f0f' }}>
+        <div style={{ flex: 1, overflowY: 'auto', background: '#ffffff' }}>
           {/* HEADER ROW */}
-          <div style={{ height: '36px', background: '#0a0a0a', borderBottom: '1px solid #1c1c1c', position: 'sticky', top: 0, zIndex: 10, display: 'grid', gridTemplateColumns: tableGridTemplate }}>
+          <div style={{ height: '36px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: 0, zIndex: 10, display: 'grid', gridTemplateColumns: tableGridTemplate }}>
             <div style={{ padding: '0', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px' }}>
               <input 
                 type="checkbox" 
                 checked={selectedRows.length === filteredDeals.length && filteredDeals.length > 0} 
                 onChange={toggleAll}
-                style={{ width: '14px', height: '14px', borderRadius: '3px', border: '1px solid #2b2b2b', background: 'transparent', cursor: 'pointer', accentColor: '#388AE5' }}
+                style={{ width: '14px', height: '14px', borderRadius: '3px', border: '1px solid #cbd5e1', background: 'transparent', cursor: 'pointer', accentColor: '#2563eb' }}
               />
             </div>
             {['Title', 'Party', 'Deal From', 'Stage', 'Status', 'Amount', 'Created On'].map(col => (
-              <div key={col} style={{ padding: '0 12px', fontSize: '11px', fontWeight: '500', color: '#424242', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', cursor: 'pointer' }} onMouseEnter={e => e.currentTarget.style.color = '#7c7c7c'} onMouseLeave={e => e.currentTarget.style.color = '#424242'}>
+              <div key={col} style={{ padding: '0 12px', fontSize: '11px', fontWeight: '600', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', cursor: 'pointer' }} onMouseEnter={e => e.currentTarget.style.color = '#0f172a'} onMouseLeave={e => e.currentTarget.style.color = '#475569'}>
                 {col}
               </div>
             ))}
@@ -290,7 +290,7 @@ export default function DealList() {
                 onClick={() => navigate(`/crm/deals/${deal.id}`)}
                 onMouseEnter={() => setHoveredRow(deal.id)}
                 onMouseLeave={() => setHoveredRow(null)}
-                style={{ display: 'grid', gridTemplateColumns: tableGridTemplate, height: '48px', borderBottom: '1px solid #1c1c1c', alignItems: 'center', cursor: 'pointer', background: isHovered || isSelected ? '#111111' : 'transparent', transition: 'background 0.1s', position: 'relative' }}
+                style={{ display: 'grid', gridTemplateColumns: tableGridTemplate, height: '48px', borderBottom: '1px solid #e2e8f0', alignItems: 'center', cursor: 'pointer', background: isHovered || isSelected ? '#f8fafc' : 'transparent', transition: 'background 0.1s', position: 'relative' }}
               >
                 <div style={{ padding: '0', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px' }}>
                   <input 
@@ -298,24 +298,24 @@ export default function DealList() {
                     checked={isSelected}
                     onChange={(e) => toggleRow(e, deal.id)}
                     onClick={(e) => e.stopPropagation()}
-                    style={{ width: '14px', height: '14px', borderRadius: '3px', border: '1px solid #2b2b2b', cursor: 'pointer', accentColor: '#388AE5' }}
+                    style={{ width: '14px', height: '14px', borderRadius: '3px', border: '1px solid #cbd5e1', cursor: 'pointer', accentColor: '#2563eb' }}
                   />
                 </div>
                 
                 <div style={{ padding: '0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ width: '26px', height: '26px', borderRadius: '6px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0e2037', border: '1px solid #1a3a5c' }}>
-                    <Handshake size={12} color="#5aaef2" />
+                  <div style={{ width: '26px', height: '26px', borderRadius: '6px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#dbeafe', border: '1px solid #bfdbfe' }}>
+                    <Handshake size={12} color="#1d4ed8" />
                   </div>
-                  <div style={{ fontSize: '13px', color: '#f8f8f8', fontWeight: '500', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: '13px', color: '#0f172a', fontWeight: '500', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {deal.title || 'Untitled Deal'}
                   </div>
                 </div>
 
-                <div style={{ padding: '0 12px', fontSize: '13px', color: '#afafaf', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div style={{ padding: '0 12px', fontSize: '13px', color: '#475569', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {deal.party || '—'}
                 </div>
 
-                <div style={{ padding: '0 12px', fontSize: '13px', color: '#afafaf', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div style={{ padding: '0 12px', fontSize: '13px', color: '#475569', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {deal.opportunityFrom || '—'}
                 </div>
 
@@ -332,22 +332,22 @@ export default function DealList() {
                   </div>
                 </div>
 
-                <div style={{ padding: '0 12px', fontSize: '13px', color: '#f8f8f8', fontWeight: '500', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div style={{ padding: '0 12px', fontSize: '13px', color: '#0f172a', fontWeight: '500', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {deal.amount ? `₹${Number(deal.amount).toLocaleString('en-IN')}` : '—'}
                 </div>
 
-                <div style={{ padding: '0 12px', fontSize: '13px', color: '#7c7c7c', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div style={{ padding: '0 12px', fontSize: '13px', color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {deal.createdOn || '—'}
                 </div>
 
                 {/* ROW HOVER ACTIONS */}
                 {isHovered && (
-                  <div style={{ position: 'absolute', right: 0, display: 'flex', alignItems: 'center', gap: '4px', background: '#111111', padding: '0 12px', height: '100%' }}>
+                  <div style={{ position: 'absolute', right: 0, display: 'flex', alignItems: 'center', gap: '4px', background: '#f8fafc', padding: '0 12px', height: '100%' }}>
                     <button 
                       onClick={(e) => { e.stopPropagation(); navigate(`/crm/deals/${deal.id}`); }}
-                      style={{ background: '#1c1c1c', border: '1px solid #2b2b2b', borderRadius: '5px', padding: '4px 8px', fontSize: '11px', color: '#afafaf', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = '#388AE5'; e.currentTarget.style.color = '#388AE5'; }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = '#2b2b2b'; e.currentTarget.style.color = '#afafaf'; }}
+                      style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '5px', padding: '4px 8px', fontSize: '11px', color: '#2563eb', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = '#2563eb'; e.currentTarget.style.background = '#eff6ff'; }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.background = '#ffffff'; }}
                     >
                       View Deal
                     </button>

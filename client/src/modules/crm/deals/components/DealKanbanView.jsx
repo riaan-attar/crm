@@ -15,14 +15,14 @@ import {
 export { DEFAULT_DEAL_STAGES as KANBAN_DEAL_STAGES, mapDealStageToColumn };
 
 const getAvatarStyle = (nameStr) => {
-  if (!nameStr) return { bg: '#1e293b', color: '#94a3b8', char: '?' };
+  if (!nameStr) return { bg: '#e2e8f0', color: '#475569', char: '?' };
   const char = nameStr.charAt(0).toUpperCase();
-  if (/[A-E]/.test(char)) return { bg: '#0e2037', color: '#5aaef2', char };
-  if (/[F-J]/.test(char)) return { bg: '#173b2c', color: '#28a745', char };
-  if (/[K-O]/.test(char)) return { bg: '#371e06', color: '#e79913', char };
-  if (/[P-T]/.test(char)) return { bg: '#2d1a4a', color: '#9c45e3', char };
-  if (/[U-Z]/.test(char)) return { bg: '#361515', color: '#e03636', char };
-  return { bg: '#1e293b', color: '#94a3b8', char };
+  if (/[A-E]/.test(char)) return { bg: '#dbeafe', color: '#1d4ed8', char };
+  if (/[F-J]/.test(char)) return { bg: '#dcfce7', color: '#15803d', char };
+  if (/[K-O]/.test(char)) return { bg: '#fef3c7', color: '#b45309', char };
+  if (/[P-T]/.test(char)) return { bg: '#f3e8ff', color: '#7e22ce', char };
+  if (/[U-Z]/.test(char)) return { bg: '#fee2e2', color: '#b91c1c', char };
+  return { bg: '#e2e8f0', color: '#475569', char };
 };
 
 const formatRelativeTime = (dateStr) => {
@@ -108,8 +108,8 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
       label: name,
       color: selectedColor.color,
       dotColor: selectedColor.dotColor,
-      headerBg: selectedColor.headerBg || '#232323',
-      bg: selectedColor.bg || '#171717',
+      headerBg: selectedColor.headerBg || '#f8fafc',
+      bg: selectedColor.bg || '#f1f5f9',
       isCustom: true,
     };
 
@@ -144,7 +144,7 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
           overflowX: 'auto',
           overflowY: 'hidden',
           padding: '16px 20px',
-          background: '#0a0a0a',
+          background: '#f8fafc',
           alignItems: 'flex-start',
         }}
       >
@@ -162,9 +162,9 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
               style={{
                 width: '310px',
                 minWidth: '310px',
-                background: '#121212',
+                background: '#f1f5f9',
                 borderRadius: '10px',
-                border: '1px solid #1c1c1c',
+                border: '1px solid #e2e8f0',
                 display: 'flex',
                 flexDirection: 'column',
                 maxHeight: '100%',
@@ -178,8 +178,8 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  borderBottom: '1px solid #1c1c1c',
-                  background: column.headerBg || '#171717',
+                  borderBottom: '1px solid #e2e8f0',
+                  background: '#f8fafc',
                   borderTopLeftRadius: '10px',
                   borderTopRightRadius: '10px',
                 }}
@@ -190,19 +190,19 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                       width: '9px',
                       height: '9px',
                       borderRadius: '50%',
-                      background: column.dotColor || '#7c7c7c',
+                      background: column.dotColor || '#64748b',
                       flexShrink: 0,
                     }}
                   />
-                  <span style={{ fontSize: '13.5px', fontWeight: '600', color: '#f8f8f8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <span style={{ fontSize: '13.5px', fontWeight: '600', color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {column.label}
                   </span>
                   <span
                     style={{
                       fontSize: '11px',
                       fontWeight: '600',
-                      color: '#afafaf',
-                      background: 'rgba(255,255,255,0.08)',
+                      color: '#475569',
+                      background: '#e2e8f0',
                       padding: '1px 7px',
                       borderRadius: '10px',
                       flexShrink: 0,
@@ -214,7 +214,7 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
                   {totalColumnValue > 0 && (
-                    <span style={{ fontSize: '11px', fontWeight: '600', color: column.color || '#5aaef2' }}>
+                    <span style={{ fontSize: '11px', fontWeight: '600', color: column.color || '#2563eb' }}>
                       {formatAmount(totalColumnValue)}
                     </span>
                   )}
@@ -225,7 +225,7 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                       style={{
                         background: 'transparent',
                         border: 'none',
-                        color: '#6b6b6b',
+                        color: '#94a3b8',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -235,7 +235,7 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                       }}
                       title={`Delete stage ${column.label}`}
                     >
-                      <Trash2 size={13} color="#e03636" />
+                      <Trash2 size={13} color="#dc2626" />
                     </button>
                   )}
 
@@ -244,7 +244,7 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                     style={{
                       background: 'transparent',
                       border: 'none',
-                      color: '#afafaf',
+                      color: '#64748b',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -253,8 +253,8 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                       borderRadius: '4px',
                       transition: 'all 0.15s',
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#f8f8f8'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#afafaf'}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#0f172a'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#64748b'}
                     title={`Add deal to ${column.label}`}
                   >
                     <Plus size={15} />
@@ -273,7 +273,7 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                       overflowY: 'auto',
                       flex: 1,
                       minHeight: '120px',
-                      background: snapshot.isDraggingOver ? 'rgba(56, 138, 229, 0.05)' : 'transparent',
+                      background: snapshot.isDraggingOver ? 'rgba(37, 99, 235, 0.05)' : 'transparent',
                       transition: 'background 0.15s ease',
                     }}
                   >
@@ -290,32 +290,32 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                               {...dragProvided.dragHandleProps}
                               onClick={() => navigate(`/crm/deals/${deal.id}`)}
                               style={{
-                                background: dragSnapshot.isDragging ? '#1a1a1a' : '#171717',
+                                background: dragSnapshot.isDragging ? '#ffffff' : '#ffffff',
                                 border: dragSnapshot.isDragging
-                                  ? '1px solid #388AE5'
-                                  : '1px solid #282828',
+                                  ? '1px solid #2563eb'
+                                  : '1px solid #e2e8f0',
                                 borderRadius: '8px',
                                 padding: '12px 14px',
                                 marginBottom: '10px',
                                 cursor: 'pointer',
                                 boxShadow: dragSnapshot.isDragging
-                                  ? '0 12px 28px rgba(0,0,0,0.5)'
-                                  : '0 2px 5px rgba(0,0,0,0.2)',
+                                  ? '0 12px 28px rgba(0,0,0,0.15)'
+                                  : '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)',
                                 transition: 'all 0.15s ease',
                                 userSelect: 'none',
                                 ...dragProvided.draggableProps.style,
                               }}
                             >
                               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px', marginBottom: '8px' }}>
-                                <div style={{ fontSize: '13.5px', fontWeight: '600', color: '#f8f8f8', lineHeight: '1.3', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                                <div style={{ fontSize: '13.5px', fontWeight: '600', color: '#0f172a', lineHeight: '1.3', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                                   {deal.title || 'Untitled Deal'}
                                 </div>
-                                <ArrowUpRight size={14} color="#6b6b6b" style={{ flexShrink: 0, marginTop: '2px' }} />
+                                <ArrowUpRight size={14} color="#94a3b8" style={{ flexShrink: 0, marginTop: '2px' }} />
                               </div>
 
                               {deal.party && (
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#afafaf', marginBottom: '8px' }}>
-                                  <Handshake size={13} color="#5aaef2" />
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#475569', marginBottom: '8px' }}>
+                                  <Handshake size={13} color="#2563eb" />
                                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                     {deal.party}
                                   </span>
@@ -324,15 +324,15 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
 
                               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
                                 {formattedVal ? (
-                                  <span style={{ fontSize: '13px', fontWeight: '700', color: '#30a66d' }}>
+                                  <span style={{ fontSize: '13px', fontWeight: '700', color: '#15803d' }}>
                                     {formattedVal}
                                   </span>
                                 ) : (
-                                  <span style={{ fontSize: '12px', color: '#6b6b6b' }}>No amount</span>
+                                  <span style={{ fontSize: '12px', color: '#94a3b8' }}>No amount</span>
                                 )}
 
                                 {deal.propertyType && (
-                                  <span style={{ fontSize: '10.5px', fontWeight: '500', color: '#afafaf', background: '#232323', border: '1px solid #343434', padding: '1px 7px', borderRadius: '4px' }}>
+                                  <span style={{ fontSize: '10.5px', fontWeight: '500', color: '#475569', background: '#f1f5f9', border: '1px solid #cbd5e1', padding: '1px 7px', borderRadius: '4px' }}>
                                     {deal.propertyType}
                                   </span>
                                 )}
@@ -344,9 +344,9 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                                   alignItems: 'center',
                                   justifyContent: 'space-between',
                                   paddingTop: '8px',
-                                  borderTop: '1px solid #232323',
+                                  borderTop: '1px solid #f1f5f9',
                                   fontSize: '11px',
-                                  color: '#6b6b6b',
+                                  color: '#94a3b8',
                                   marginBottom: '8px',
                                 }}
                               >
@@ -367,7 +367,7 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                                   >
                                     {avatarInfo.char}
                                   </div>
-                                  <span style={{ color: '#afafaf', fontSize: '11.5px' }}>
+                                  <span style={{ color: '#475569', fontSize: '11.5px' }}>
                                     {deal.assignedTo || 'Unassigned'}
                                   </span>
                                 </div>
@@ -380,7 +380,7 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                                   alignItems: 'center',
                                   justifyContent: 'space-between',
                                   paddingTop: '6px',
-                                  color: '#6b6b6b',
+                                  color: '#64748b',
                                 }}
                                 onClick={(e) => e.stopPropagation()}
                               >
@@ -429,8 +429,8 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
           style={{
             width: '240px',
             minWidth: '240px',
-            background: '#121212',
-            border: '2px dashed #2b2b2b',
+            background: '#ffffff',
+            border: '2px dashed #cbd5e1',
             borderRadius: '10px',
             padding: '16px',
             display: 'flex',
@@ -439,18 +439,18 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
             gap: '8px',
             fontSize: '13.5px',
             fontWeight: '600',
-            color: '#388AE5',
+            color: '#2563eb',
             cursor: 'pointer',
             flexShrink: 0,
             transition: 'all 0.15s ease',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = '#388AE5';
-            e.currentTarget.style.background = '#171717';
+            e.currentTarget.style.borderColor = '#2563eb';
+            e.currentTarget.style.background = '#eff6ff';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = '#2b2b2b';
-            e.currentTarget.style.background = '#121212';
+            e.currentTarget.style.borderColor = '#cbd5e1';
+            e.currentTarget.style.background = '#ffffff';
           }}
         >
           <Plus size={16} /> Add Stage Column
@@ -459,27 +459,27 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
 
       {/* ADD STAGE COLUMN MODAL */}
       {showAddColumnModal && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(2px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', borderRadius: '12px', width: '100%', maxWidth: '420px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.5)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #2b2b2b', paddingBottom: '12px' }}>
-              <span style={{ fontSize: '15px', fontWeight: '600', color: '#f8f8f8' }}>Add Custom Stage Column</span>
-              <button onClick={() => setShowAddColumnModal(false)} style={{ background: 'transparent', border: 'none', color: '#6b6b6b', cursor: 'pointer' }}>✕</button>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.4)', backdropFilter: 'blur(2px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+          <div style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '12px', width: '100%', maxWidth: '420px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
+              <span style={{ fontSize: '15px', fontWeight: '600', color: '#0f172a' }}>Add Custom Stage Column</span>
+              <button onClick={() => setShowAddColumnModal(false)} style={{ background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer' }}>✕</button>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <label style={{ fontSize: '12px', color: '#afafaf', fontWeight: '500' }}>Stage Column Name *</label>
+                <label style={{ fontSize: '12px', color: '#475569', fontWeight: '500' }}>Stage Column Name *</label>
                 <input
                   type="text"
                   placeholder="e.g. Technical Review, Contract Sent, Final Review"
                   value={newStageName}
                   onChange={(e) => setNewStageName(e.target.value)}
-                  style={{ background: '#232323', border: '1px solid #343434', borderRadius: '6px', padding: '8px 12px', fontSize: '13px', color: '#f8f8f8', outline: 'none' }}
+                  style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '8px 12px', fontSize: '13px', color: '#0f172a', outline: 'none' }}
                 />
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <label style={{ fontSize: '12px', color: '#afafaf', fontWeight: '500' }}>Column Badge Color</label>
+                <label style={{ fontSize: '12px', color: '#475569', fontWeight: '500' }}>Column Badge Color</label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {DEAL_STAGE_COLOR_OPTIONS.map((c) => (
                     <div
@@ -491,8 +491,8 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
                         borderRadius: '50%',
                         background: c.dotColor,
                         cursor: 'pointer',
-                        border: selectedColor.label === c.label ? '2px solid #ffffff' : '2px solid transparent',
-                        boxShadow: selectedColor.label === c.label ? '0 0 0 2px #388AE5' : 'none'
+                        border: selectedColor.label === c.label ? '2px solid #0f172a' : '2px solid transparent',
+                        boxShadow: selectedColor.label === c.label ? '0 0 0 2px #ffffff' : 'none'
                       }}
                       title={c.label}
                     />
@@ -501,16 +501,16 @@ export default function DealKanbanView({ opportunities = [], updateOpportunity, 
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', paddingTop: '10px', borderTop: '1px solid #2b2b2b' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', paddingTop: '10px', borderTop: '1px solid #e2e8f0' }}>
               <button
                 onClick={() => setShowAddColumnModal(false)}
-                style={{ background: '#232323', border: '1px solid #343434', borderRadius: '6px', padding: '6px 14px', fontSize: '13px', color: '#afafaf', cursor: 'pointer' }}
+                style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '6px 14px', fontSize: '13px', color: '#334155', cursor: 'pointer' }}
               >
                 Cancel
               </button>
               <button
                 onClick={handleCreateColumn}
-                style={{ background: '#388AE5', border: 'none', borderRadius: '6px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#ffffff', cursor: 'pointer' }}
+                style={{ background: '#2563eb', border: 'none', borderRadius: '6px', padding: '6px 16px', fontSize: '13px', fontWeight: '500', color: '#ffffff', cursor: 'pointer' }}
               >
                 Create Column
               </button>

@@ -1,22 +1,22 @@
 export const DEFAULT_DEAL_STAGES = [
-  { id: 'Qualification', label: 'Qualification', color: '#7c7c7c', dotColor: '#7c7c7c', headerBg: '#1f1f1f', bg: '#141414' },
-  { id: 'Demo', label: 'Demo', color: '#5aaef2', dotColor: '#5aaef2', headerBg: '#0e2037', bg: '#0d1a2a' },
-  { id: 'Proposal', label: 'Proposal', color: '#e79913', dotColor: '#e79913', headerBg: '#371e06', bg: '#1a1200' },
-  { id: 'Negotiation', label: 'Negotiation', color: '#9c45e3', dotColor: '#9c45e3', headerBg: '#2d1a4a', bg: '#1a0a2a' },
-  { id: 'Ready to Close', label: 'Ready to Close', color: '#30a66d', dotColor: '#30a66d', headerBg: '#0b2e1c', bg: '#082115' },
-  { id: 'Won', label: 'Won', color: '#28a745', dotColor: '#28a745', headerBg: '#173b2c', bg: '#0a1a0e' },
-  { id: 'Lost', label: 'Lost', color: '#e03636', dotColor: '#e03636', headerBg: '#361515', bg: '#1a0a0a' },
+  { id: 'Qualification', label: 'Qualification', color: '#475569', dotColor: '#64748b', headerBg: '#f8fafc', bg: '#f1f5f9' },
+  { id: 'Demo', label: 'Demo', color: '#0369a1', dotColor: '#0284c7', headerBg: '#f0f9ff', bg: '#e0f2fe' },
+  { id: 'Proposal', label: 'Proposal', color: '#b45309', dotColor: '#d97706', headerBg: '#fffbeb', bg: '#fef3c7' },
+  { id: 'Negotiation', label: 'Negotiation', color: '#7e22ce', dotColor: '#9333ea', headerBg: '#faf5ff', bg: '#f3e8ff' },
+  { id: 'Ready to Close', label: 'Ready to Close', color: '#047857', dotColor: '#059669', headerBg: '#ecfdf5', bg: '#d1fae5' },
+  { id: 'Won', label: 'Won', color: '#15803d', dotColor: '#16a34a', headerBg: '#f0fdf4', bg: '#dcfce7' },
+  { id: 'Lost', label: 'Lost', color: '#b91c1c', dotColor: '#dc2626', headerBg: '#fef2f2', bg: '#fee2e2' },
 ];
 
 export const DEAL_STAGE_COLOR_OPTIONS = [
-  { label: 'Slate', color: '#7c7c7c', dotColor: '#7c7c7c', headerBg: '#1f1f1f', bg: '#141414' },
-  { label: 'Blue', color: '#5aaef2', dotColor: '#5aaef2', headerBg: '#0e2037', bg: '#0d1a2a' },
-  { label: 'Amber', color: '#e79913', dotColor: '#e79913', headerBg: '#371e06', bg: '#1a1200' },
-  { label: 'Purple', color: '#9c45e3', dotColor: '#9c45e3', headerBg: '#2d1a4a', bg: '#1a0a2a' },
-  { label: 'Teal', color: '#30a66d', dotColor: '#30a66d', headerBg: '#0b2e1c', bg: '#082115' },
-  { label: 'Green', color: '#28a745', dotColor: '#28a745', headerBg: '#173b2c', bg: '#0a1a0e' },
-  { label: 'Red', color: '#e03636', dotColor: '#e03636', headerBg: '#361515', bg: '#1a0a0a' },
-  { label: 'Pink', color: '#ec4899', dotColor: '#ec4899', headerBg: '#3b0d25', bg: '#1f0714' },
+  { label: 'Slate', color: '#475569', dotColor: '#64748b', headerBg: '#f8fafc', bg: '#f1f5f9' },
+  { label: 'Blue', color: '#0369a1', dotColor: '#0284c7', headerBg: '#f0f9ff', bg: '#e0f2fe' },
+  { label: 'Amber', color: '#b45309', dotColor: '#d97706', headerBg: '#fffbeb', bg: '#fef3c7' },
+  { label: 'Purple', color: '#7e22ce', dotColor: '#9333ea', headerBg: '#faf5ff', bg: '#f3e8ff' },
+  { label: 'Teal', color: '#047857', dotColor: '#059669', headerBg: '#ecfdf5', bg: '#d1fae5' },
+  { label: 'Green', color: '#15803d', dotColor: '#16a34a', headerBg: '#f0fdf4', bg: '#dcfce7' },
+  { label: 'Red', color: '#b91c1c', dotColor: '#dc2626', headerBg: '#fef2f2', bg: '#fee2e2' },
+  { label: 'Pink', color: '#be185d', dotColor: '#ec4899', headerBg: '#fdf2f8', bg: '#fce7f3' },
 ];
 
 export const getStoredDealStages = () => {
