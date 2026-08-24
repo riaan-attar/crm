@@ -41,7 +41,7 @@ cd "${PROJECT_DIR}/server"
 if [ ! -f .env ]; then
   echo "Creating server/.env file..."
   cat <<'EOF' > .env
-DB_HOST=187.127.167.177
+DB_HOST=200.141.14.233
 DB_PORT=3306
 DB_USER=riaan
 DB_PASS=helliswell@6226
