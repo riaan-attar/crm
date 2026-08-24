@@ -41,7 +41,7 @@ cd "${PROJECT_DIR}/server"
 if [ ! -f .env ]; then
   echo "Creating server/.env file..."
   cat <<'EOF' > .env
-DB_HOST=200.141.14.233
+DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_USER=riaan
 DB_PASS=helliswell@6226
@@ -66,7 +66,7 @@ echo "Starting/restarting backend server with PM2..."
 # Clear any stray non-PM2 process listening on port 5000
 sudo fuser -k 5000/tcp || true
 if pm2 describe crm-server > /dev/null 2>&1; then
-  pm2 restart crm-server
+  pm2 restart crm-server --update-env
 else
   pm2 start server.js --name "crm-server"
 fi
@@ -99,20 +99,24 @@ chmod -R 755 "${PROJECT_DIR}/client/dist" 2>/dev/null || true
 sudo mkdir -p /etc/caddy
 sudo cat <<EOF > /etc/caddy/Caddyfile
 ${DOMAIN} {
-  root * ${PROJECT_DIR}/client/dist
   encode gzip zstd
 
-  # Serve SPA frontend assets with fallback to index.html
-  try_files {path} /index.html
-  file_server
-
   # Reverse proxy API requests to Node server
-  @api path /api/*
-  reverse_proxy @api localhost:5000
+  handle /api/* {
+    reverse_proxy localhost:5000
+  }
 
   # Reverse proxy WebSocket requests to Node server
-  @sockets path /socket.io/*
-  reverse_proxy @sockets localhost:5000
+  handle /socket.io/* {
+    reverse_proxy localhost:5000
+  }
+
+  # Frontend SPA
+  handle {
+    root * ${PROJECT_DIR}/client/dist
+    try_files {path} /index.html
+    file_server
+  }
 }
 EOF
 
